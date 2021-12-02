@@ -1,0 +1,14 @@
+{
+  "github": "sharetribe/flex-sdk-js",
+  "scripts": [
+    "scripts.js",
+    "sharetribe-flex-sdk-web.js"
+  ],
+  "css": [
+    "styles.css"
+  ],
+  "googleAnalytics": {
+    "id": "UA-10178914-13",
+    "domain": "sharetribe.github.io"
+  }
+}

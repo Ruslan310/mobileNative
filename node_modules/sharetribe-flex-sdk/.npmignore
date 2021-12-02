@@ -1,0 +1,23 @@
+# Dependency directories
+node_modules
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Logs
+npm-debug.log
+
+.DS_Store
+
+# REPL history
+.repl_history
+
+# Docpress output
+_docpress
+docs/sharetribe-flex-sdk-web.js
+
+# Yarn
+yarn-error.log
