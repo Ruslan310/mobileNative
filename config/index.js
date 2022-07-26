@@ -1,6 +1,6 @@
 export default {
-  MARKETPLACE_ID: 'c871d55a-d47e-43a8-a540-49776f38e6eb',
-  GOOGLE_API_KEY: 'AIzaSyBzQei2J4p9OaxNi4wLKdJK0IoUjLK3FFE',
+  MARKETPLACE_ID: '',
+  GOOGLE_API_KEY: '',
   SENTRY_DNS: 'Your sentry DNS URL',
   STRIPE_API_KEY: ' ',
   STRIPE_CLIENT_ID: ' ',
