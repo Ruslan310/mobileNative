@@ -61,7 +61,7 @@ const RootModal = ({
 
 RootModal.propTypes = {
   navigationToRequestToRent: T.func,
-  errorMessage: T.string,
+  // errorMessage: T.bool || T.string,
   gotoProduct: T.func,
 };
 

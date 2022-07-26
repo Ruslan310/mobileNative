@@ -1,6 +1,7 @@
 import { createInstance, types } from 'sharetribe-flex-sdk';
 import config from '../../config';
 import AsyncStore from './AsyncStore';
+import stripe from "tipsi-stripe";
 
 class SharetribeSdkService {
   init() {
@@ -10,7 +11,7 @@ class SharetribeSdkService {
     });
   }
 
-  register({ firstName, lastName, email, password, displayName }) {
+  register({ firstName, lastName, email, password, displayName}) {
     return this.sdk.currentUser.create({
       firstName,
       lastName,
@@ -37,11 +38,12 @@ class SharetribeSdkService {
 
   getUser() {
     return this.sdk.currentUser.show({
-      include: ['profileImage'],
+        include: ['profileImage', 'stripeAccount', 'stripeCustomer', 'stripeCustomer.defaultPaymentMethod'],
     });
   }
 
   resetPassword({ email }) {
+    console.log('email',email)
     return this.sdk.passwordReset.request({ email });
   }
 
@@ -54,42 +56,43 @@ class SharetribeSdkService {
   }
 
   createListing({
-    title,
-    description,
-    price,
-    category,
-    images,
-    location,
-    geolocation,
-    entriesDay,
-    availabilityPlanType,
-  }) {
+                  title,
+                  description,
+                  price,
+                  category,
+                  images,
+                  location,
+                  geolocation,
+                  entriesDay,
+                  availabilityPlanType,
+                }) {
+      console.log('geolocation',geolocation)
     return this.sdk.ownListings.create(
-      {
-        title,
-        description,
-        price: new types.Money(Number(price), 'USD'),
-        geolocation: new types.LatLng(
-          geolocation.lat,
-          geolocation.lng,
-        ),
-        publicData: {
-          category,
-          location,
+        {
           title,
           description,
-          price: Number(price),
+          price: new types.Money(Number(price), 'USD'),
+          geolocation: new types.LatLng(
+              geolocation.lat,
+              geolocation.lng,
+          ),
+          publicData: {
+            category,
+            location,
+            title,
+            description,
+            price: Number(price),
+          },
+          availabilityPlan: {
+            type: availabilityPlanType,
+            entries: entriesDay,
+          },
+          images,
         },
-        availabilityPlan: {
-          type: availabilityPlanType,
-          entries: entriesDay,
+        {
+          expand: true,
+          include: ['marketplace', 'images', 'author'],
         },
-        images,
-      },
-      {
-        expand: true,
-        include: ['marketplace', 'images', 'author'],
-      },
     );
   }
 
@@ -109,13 +112,13 @@ class SharetribeSdkService {
   updateAvatar(avatarId) {
     const profileImageId = new types.UUID(avatarId);
     return this.sdk.currentUser.updateProfile(
-      {
-        profileImageId,
-      },
-      {
-        expand: true,
-        include: ['profileImage'],
-      },
+        {
+          profileImageId,
+        },
+        {
+          expand: true,
+          include: ['profileImage'],
+        },
     );
   }
 
@@ -124,10 +127,12 @@ class SharetribeSdkService {
   }
 
   fetchListings(query) {
+      // console.log('listing',query)
     return this.sdk.listings.query(query);
   }
 
   fetchOwnListings(query) {
+      console.log('ownListings')
     return this.sdk.ownListings.query(query);
   }
 
@@ -155,29 +160,34 @@ class SharetribeSdkService {
   }
 
   verifyEmail(verificationToken) {
+    console.log('verificationToken', verificationToken)
     return this.sdk.currentUser.verifyEmail({
-      verificationToken,
+      verificationToken
     });
   }
 
   updateOwnListings({
-    id,
-    title,
-    description,
-    price,
-    category,
-    images,
-    location,
-    geolocation,
-    entriesDay,
-    availabilityPlanType,
-  }) {
+                      id,
+                      title,
+                      description,
+                      price,
+                      category,
+                      images,
+                      location,
+                      geolocation,
+                      entriesDay,
+                      availabilityPlanType,
+                    }) {
+      console.log('geolocation',geolocation)
     const params = {
       id: new types.UUID(id),
       title,
       description,
       price: new types.Money(Number(price), 'USD'),
-      geolocation: new types.LatLng(geolocation.lat, geolocation.lng),
+      geolocation: new types.LatLng(
+          geolocation.lat,
+          geolocation.lng
+      ),
       publicData: {
         category,
         location,
@@ -205,90 +215,117 @@ class SharetribeSdkService {
     });
   }
 
-  initiateTransaction({ listingId, startRent, endRent, cardToken }) {
+  initiateTransaction({ listingId, startRent, endRent, payment }) {
+    console.log('payment', payment)
     return this.sdk.transactions.initiate(
-      {
-        processAlias: 'sca-preauth-nightly-booking/release-1',
-        transition: 'transition/request-payment',
-        params: {
-          listingId,
-          bookingStart: new Date(startRent),
-          bookingEnd: new Date(endRent),
-          cardToken,
+        {
+          processAlias: 'sca-preauth-nightly-booking/release-1',
+          transition: 'transition/request-payment',
+          params: {
+            listingId,
+            bookingStart: new Date(startRent),
+            bookingEnd: new Date(endRent),
+            payment,
+          },
         },
-      },
-      {
-        expand: true,
-        include: [
-          'customer',
-          'customer.profileImage',
-          'provider',
-          'provider.profileImage',
-          'listing',
-          'booking',
-        ],
-      },
+        {
+          expand: true,
+          include: [
+            'customer',
+            'customer.profileImage',
+            'provider',
+            'provider.profileImage',
+            'listing',
+            'booking',
+          ],
+        },
     );
   }
 
+
+  confirmTransaction(transactionId) {
+    console.log('confirmTransaction', transactionId)
+      return this.sdk.transactions.transition(
+          {
+              id: new types.UUID(transactionId),
+              transition: 'transition/confirm-payment',
+              params: {},
+          },
+          {
+              expand: true,
+              include: [
+                  'customer',
+                  'customer.profileImage',
+                  'provider',
+                  'provider.profileImage',
+                  'listing',
+                  'reviews',
+                  'reviews.author',
+                  'reviews.subject',
+                  'messages',
+              ],
+          },
+      );
+  }
+
   initiateSpeculativelyTransaction({
-    listingId,
-    startRent,
-    endRent,
-    cardToken,
-  }) {
+                                     listingId,
+                                     startRent,
+                                     endRent,
+                                     cardToken,
+                                   }) {
     return this.sdk.transactions.initiateSpeculative(
-      {
-        processAlias: 'sca-preauth-nightly-booking/release-1',
-        transition: 'transition/request-payment',
-        params: {
-          listingId,
-          bookingStart: new Date(startRent),
-          bookingEnd: new Date(endRent),
-          cardToken,
+        {
+          processAlias: 'sca-preauth-nightly-booking/release-1',
+          transition: 'transition/request-payment',
+          params: {
+            listingId,
+            bookingStart: new Date(startRent),
+            bookingEnd: new Date(endRent),
+            cardToken,
+          },
         },
-      },
-      {
-        expand: true,
-        include: [
-          'customer',
-          'customer.profileImage',
-          'provider',
-          'provider.profileImage',
-          'listing',
-          'booking',
-        ],
-      },
+        {
+          expand: true,
+          include: [
+            'customer',
+            'customer.profileImage',
+            'provider',
+            'provider.profileImage',
+            'listing',
+            'booking',
+          ],
+        },
     );
   }
 
   initiateMessageTransaction(listId) {
-    console.log('run service... ');
+    console.log('run service... initiateMessageTransaction');
     return this.sdk.transactions.initiate(
-      {
-        processAlias: 'sca-preauth-nightly-booking/release-1',
-        transition: 'transition/enquire',
-        params: {
-          listingId: new types.UUID(listId),
+        {
+          processAlias: 'sca-preauth-nightly-booking/release-1',
+          transition: 'transition/enquire',
+          params: {
+            listingId: new types.UUID(listId),
+          },
         },
-      },
-      {
-        expand: true,
-        include: [
-          'customer',
-          'customer.profileImage',
-          'provider',
-          'provider.profileImage',
-          'listing',
-          'listing.images',
-          'booking',
-        ],
-      },
+        {
+          expand: true,
+          include: [
+            'customer',
+            'customer.profileImage',
+            'provider',
+            'provider.profileImage',
+            'listing',
+            'listing.images',
+            'booking',
+          ],
+        },
     );
   }
 
   fetchMessage({ transactionId, perPage, page }) {
-    console.log('run service... ');
+    console.log('run service... fetchMessage');
     return this.sdk.messages.query({
       transactionId: new types.UUID(transactionId),
       include: ['sender', 'sender.profileImage'],
@@ -308,15 +345,15 @@ class SharetribeSdkService {
   }
 
   sendMessage({ transactionId, content }) {
-    console.log('run service... ');
+    console.log('run service... sendMessage');
     return this.sdk.messages.send(
-      {
-        transactionId: new types.UUID(transactionId),
-        content,
-      },
-      {
-        expand: true,
-      },
+        {
+          transactionId: new types.UUID(transactionId),
+          content,
+        },
+        {
+          expand: true,
+        },
     );
   }
 
@@ -325,7 +362,8 @@ class SharetribeSdkService {
       lastTransitions: [
         'transition/request',
         'transition/enquire',
-        'transition/request-after-enquiry',
+        'transition/confirm-payment',
+        'transition/request-payment-after-enquiry',
         'transition/accept',
         'transition/decline',
         'transition/complete',
@@ -377,73 +415,61 @@ class SharetribeSdkService {
 
   changeStateTransactions({ transactionId, transition }) {
     return this.sdk.transactions.transition(
-      {
-        id: new types.UUID(transactionId),
-        transition,
-        params: {},
-      },
-      {
-        expand: true,
-        include: [
-          'customer',
-          'customer.profileImage',
-          'provider',
-          'provider.profileImage',
-          'listing',
-          'reviews',
-          'reviews.author',
-          'reviews.subject',
-          'messages',
-        ],
-      },
+        {
+          id: new types.UUID(transactionId),
+          transition,
+          params: {},
+        },
+        {
+          expand: true,
+          include: [
+            'customer',
+            'customer.profileImage',
+            'provider',
+            'provider.profileImage',
+            'listing',
+            'reviews',
+            'reviews.author',
+            'reviews.subject',
+            'messages',
+          ],
+        },
     );
   }
 
-  changeTransactionsAfterEnquiry({
-    transactionId,
-    transition,
-    listingId,
-    startRent,
-    endRent,
-    cardToken,
-  }) {
+  changeTransactionsAfterEnquiry({ transactionId, transition, listingId, startRent, endRent, payment }) {
     return this.sdk.transactions.transition(
-      {
-        id: transactionId,
-        transition,
-        params: {
-          listingId,
-          bookingStart: new Date(startRent),
-          bookingEnd: new Date(endRent),
-          cardToken,
+        {
+          id: transactionId,
+          transition,
+          params: {
+            listingId,
+            bookingStart: new Date(startRent),
+            bookingEnd: new Date(endRent),
+            payment,
+          },
         },
-      },
-      {
-        expand: true,
-        include: ['listing', 'booking', 'messages'],
-      },
+        {
+          expand: true,
+          include: ['listing', 'booking', 'messages'],
+        },
     );
   }
 
-  changeTransactionsView({
-    transactionId,
-    transition,
-    content,
-    rating,
-  }) {
+  changeTransactionsView({ transactionId, transition, content, rating }) {
     return this.sdk.transactions.transition(
-      {
-        id: transactionId,
-        transition,
-        params: {
-          reviewRating: rating,
-          reviewContent: content,
+        {
+          id: transactionId,
+          transition,
+          params: {
+            reviewRating: rating,
+            reviewContent: content,
+          },
         },
-      },
-      {
-        expand: true,
-        include: ['reviews', 'reviews.author', 'reviews.subject'],
-      },
+        {
+          expand: true,
+          include: ['reviews', 'reviews.author', 'reviews.subject'],
+        },
     );
   }
 
@@ -464,8 +490,42 @@ class SharetribeSdkService {
   }
 
   createStripeAccount(query) {
+      console.log('createStripeAccount', query)
     return this.sdk.stripeAccount.create(query, {
       expand: true,
+    });
+  }
+
+  updateStripeAccount(query) {
+    console.log('updateStripeAccount', query)
+    return this.sdk.stripeAccount.update(query, {
+      expand: true,
+    });
+  }
+
+  fetchStripeAccount() {
+    return this.sdk.stripeAccount.fetch();
+  }
+
+  createStripePaymentMethod(query) {
+      console.log('createStripePaymentMethod', query)
+    return this.sdk.stripeCustomer.create( query, {
+        expand: true,
+        include: "defaultPaymentMethod"
+    });
+  }
+
+  addStripePaymentMethod(query) {
+      console.log('addStripePaymentMethod')
+      return this.sdk.stripeCustomer.addPaymentMethod( query, {
+          expand: true,
+      });
+  }
+
+  deleteStripePaymentMethod() {
+      console.log('deleteStripePaymentMethod')
+    return this.sdk.stripeCustomer.deletePaymentMethod( {}, {
+        expand: true,
     });
   }
 

@@ -215,7 +215,7 @@ function updateProduct(flow, store) {
         id: store.id,
         images: restImagesIds.concat(imagesId),
       };
-
+      console.log('updateOwnListings', body)
       const res = yield flow.Api.updateOwnListings(body);
       const snapshot = processJsonApi(res.data.data);
       const entities = normalizedIncluded(res.data.included);
@@ -316,6 +316,7 @@ function createListing(flow, store) {
   }) {
     try {
       flow.start();
+      console.log('createListing')
       const resImages = yield Promise.all(
         images.map((image) => store.Api.imagesUpload(image)),
       );
@@ -336,6 +337,7 @@ function createListing(flow, store) {
         availabilityPlanType: 'availability-plan/day',
       });
 
+      console.log('res list',res)
       const data = processJsonApi(res.data.data);
       const entities = normalizedIncluded(res.data.included);
       getRoot(store).entities.merge(entities);
@@ -353,27 +355,27 @@ function fetchListings(flow, store) {
   return function* fetchListings({ categories, title }) {
     try {
       flow.start();
-
-      const res = yield store.Api.fetchListings({
-        pub_category: categories,
-        pub_title: title,
-        include: [
-          'images',
-          'author',
-          'author.profileImage',
-          'reviews',
-        ],
-      });
-
-      const normalizedEntities = normalizedIncluded(
-        res.data.included,
-      );
-
-      transaction(() => {
-        getRoot(store).entities.merge(normalizedEntities);
-      });
-
-      store.list.set(res.data.data);
+      // const res = yield store.Api.fetchListings({
+      //   pub_category: categories,
+      //   pub_title: title,
+      //   include: [
+      //     'images',
+      //     'author',
+      //     'author.profileImage',
+      //     'reviews',
+      //   ],
+      // });
+      // console.log('fetchListings', res.data.data)
+      // const normalizedEntities = normalizedIncluded(
+      //   res.data.included,
+      // );
+      //
+      // transaction(() => {
+      //   getRoot(store).entities.merge(normalizedEntities);
+      // });
+      //
+      // console.log('getRoot(store)',getRoot(store))
+      // store.list.set(res.data.data);
 
       flow.success();
     } catch (err) {
@@ -392,19 +394,17 @@ function searchListings(flow, store) {
   return function* searchListings({ title }) {
     try {
       flow.start();
-
-      const res = yield store.Api.fetchListings({
-        keywords: title,
-        include: ['images', 'author', 'author.profileImage'],
-      });
-
-      const normalizedEntities = normalizedIncluded(
-        res.data.included,
-      );
-
-      getRoot(store).entities.merge(normalizedEntities);
-
-      store.searchList.set(res.data.data);
+      // const res = yield store.Api.fetchListings({
+      //   keywords: title,
+      //   include: ['images', 'author', 'author.profileImage'],
+      // });
+      // console.log('res list',res.data.data)
+      // const normalizedEntities = normalizedIncluded(
+      //   res.data.included,
+      // );
+      //
+      // getRoot(store).entities.merge(normalizedEntities);
+      // store.searchList.set(res.data.data);
 
       flow.success();
     } catch (err) {
@@ -453,11 +453,12 @@ function fetchParticularUserListings(flow, store) {
   return function* fetchParticularUserListings(userId) {
     try {
       flow.start();
+      console.log('5555555')
       const res = yield store.Api.fetchListings({
         authorId: userId,
         include: ['images', 'author', 'author.profileImage'],
       });
-
+      console.log('fetchParticularUserListings', res.data.data)
       const normalizedEntities = normalizedIncluded(
         res.data.included,
       );

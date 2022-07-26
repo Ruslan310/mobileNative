@@ -3,11 +3,11 @@ import { colors, dimensions } from '../../styles';
 
 export default StyleSheet.create({
   container: {
-    borderRadius: 10,
+    borderRadius: 4,
     overflow: 'hidden',
   },
   button: {
-    borderRadius: 10,
+    borderRadius: 4,
     padding: dimensions.indent * 0.8,
   },
   view: {
@@ -18,6 +18,7 @@ export default StyleSheet.create({
   text: {
     textAlign: 'center',
     textAlignVertical: 'center',
+    textTransform: 'uppercase',
   },
   contentContainer: {
     flexDirection: 'row',

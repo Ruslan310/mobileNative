@@ -161,7 +161,7 @@ const PayoutPreferencesScreen = ({
                   placeholder={i18n.t(
                     'payoutPreferences.accountNumber',
                   )}
-                  name="accountNumber"
+                  name="bankAccountNumber"
                   autoCapitalize="none"
                   maxLength={12}
                   keyboardType="number-pad"

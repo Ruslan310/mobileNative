@@ -3,11 +3,11 @@ import { compose, setPropTypes, withProps } from 'recompose';
 import { fontSizes, colors } from '../../styles';
 
 const getFontFamily = (light, medium, bold) => {
-  let fontFamily = 'OpenSans-Regular';
+  let fontFamily = 'Roboto-Regular';
 
-  if (light) fontFamily = 'OpenSans-Light';
-  if (medium) fontFamily = 'OpenSans-SemiBold';
-  if (bold) fontFamily = 'OpenSans-Bold';
+  if (light) fontFamily = 'Roboto-Light';
+  if (medium) fontFamily = 'Roboto-Medium';
+  if (bold) fontFamily = 'Roboto-Bold';
 
   return { fontFamily };
 };
@@ -43,6 +43,7 @@ const getFontSize = (
 };
 
 const getFontColor = (
+  lightBlack,
   black,
   gray,
   white,
@@ -53,6 +54,7 @@ const getFontColor = (
 ) => {
   let color = colors.text.black;
 
+  if (lightBlack) color = colors.text.lightBlack;
   if (black) color = colors.text.black;
   if (gray) color = colors.text.gray;
   if (white) color = colors.text.white;
@@ -84,6 +86,7 @@ const enhance = compose(
         props.smallSize,
       ),
       getFontColor(
+        props.lightBlack,
         props.black,
         props.gray,
         props.white,

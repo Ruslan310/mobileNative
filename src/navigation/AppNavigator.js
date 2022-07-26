@@ -3,7 +3,8 @@ import screens from './screens';
 import { Drawer } from '../components';
 import HomeNavigator from './HomeNavigator';
 import MyListingsNavigator from './MyListingsNavigator';
-import SettingsNavigator from './SettingsNavigator';
+import UserSettingsNavigator from './UserSettingsNavigator';
+import AccountSettingsNavigator from './AccountSettingsNavigator';
 import ProfileNavigator from './ProfileNavigator';
 import InboxNavigator from './InboxNavigator';
 import RentalsNavigator from './RentalsNavigator';
@@ -13,7 +14,8 @@ export default createDrawerNavigator(
     [screens.HomeStack]: HomeNavigator,
     [screens.MyListingsStack]: MyListingsNavigator,
     [screens.ProfileStack]: ProfileNavigator,
-    [screens.SettingsStack]: SettingsNavigator,
+    [screens.UserSettingsStack]: UserSettingsNavigator,
+    [screens.AccountSettingsStack]: AccountSettingsNavigator,
     [screens.InboxStack]: InboxNavigator,
     [screens.RentalsStack]: RentalsNavigator,
   },

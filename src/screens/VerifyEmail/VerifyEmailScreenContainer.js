@@ -41,6 +41,7 @@ export default hoistStatics(
         setError,
       }) => async () => {
         try {
+          console.log('token', token)
           setError(false);
           await verifyEmail.run(token);
         } catch (err) {

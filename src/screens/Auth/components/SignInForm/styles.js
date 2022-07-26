@@ -1,49 +1,64 @@
 import { StyleSheet } from 'react-native';
 import { colors, dimensions } from '../../../../styles';
 import { isSmallDevice, isAndroid } from '../../../../utils';
+import {indent, smallIndent, width} from "../../../../styles/dimensions";
 
 const smallDevice = isSmallDevice();
 const isAndroidDevice = isAndroid();
 
 export default StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    backgroundColor: colors.signInSignUpForm.backgroundColor,
-    paddingHorizontal: dimensions.indent,
-    borderRadius: 10,
-  },
-  heading: {
-    marginTop: dimensions.indent * 1.1,
-    marginBottom: dimensions.indent * 1.2,
-    textAlign: 'center',
-  },
   text: {
     textAlign: 'center',
   },
   textWithTouchableContainer: {
     flexDirection: smallDevice ? 'column' : 'row',
-  },
-  bottom: {
-    marginTop: isSmallDevice
-      ? dimensions.indentModerated * 0.7
-      : dimensions.indentModerated * 0.9,
-    marginBottom: dimensions.indentModerated,
+    justifyContent: "center"
   },
   inputContainerEmail: {
-    marginBottom: dimensions.indent * 1.8,
+    marginBottom: dimensions.indent * 1.2,
   },
   inputContainerPassword: {
-    marginBottom: dimensions.indent,
+    marginBottom: 21,
   },
   buttonContainer: {
-    marginTop: isAndroidDevice
-      ? dimensions.indent * 0.7
-      : dimensions.indent * 1.4,
-    marginBottom: isAndroidDevice
-      ? dimensions.indent * 0.7
-      : dimensions.indent * 1.5,
+    marginTop: dimensions.indent * 0.7,
   },
-  alignCenter: {
-    justifyContent: 'center',
+  containerSafeAreaView: {
+    flex: 1,
   },
+  heading: {
+    fontWeight: '500',
+    textAlign: "center",
+    textTransform: "uppercase",
+    marginBottom: dimensions.indentModerated * 2.3,
+  },
+  tabViewContainer: {
+    height: 393,
+    paddingRight: dimensions.indent,
+    paddingLeft: dimensions.indent,
+    paddingTop: dimensions.smallIndent *2,
+    marginLeft: dimensions.indent,
+    marginRight: dimensions.indent,
+    shadowOffset: {
+      width: 0,
+      height: -1,
+    },
+    shadowOpacity: 0.12,
+    shadowRadius: 39,
+    borderRadius: 12,
+    backgroundColor: colors.authScreen.backgroundColor,
+  },
+  headerTitle: {
+    alignItems: "center",
+    marginBottom: dimensions.smallIndent * 2,
+    marginTop: dimensions.indent * 3
+  },
+  circle: {
+    position: "absolute",
+    width: width,
+    height: dimensions.indentModerated * 31.5,
+    borderRadius: 12,
+    top: -110,
+    backgroundColor: colors.authScreen.circle,
+  }
 });

@@ -1,12 +1,16 @@
 import React from 'react';
 import {
-  compose,
-  withHandlers,
-  defaultProps,
-  hoistStatics,
+    compose,
+    withHandlers,
+    defaultProps,
+    hoistStatics, withStateHandlers,
 } from 'recompose';
 import { inject } from 'mobx-react';
 import SignUpFormView from './SignUpFormView';
+import {withModal} from "../../../../utils/enhancers";
+import TermsAndConditionsModal from "../TermsAndConditionsModal/TermsAndConditionsContainer";
+import {NavigationService} from "../../../../services";
+import screens from "../../../../navigation/screens";
 
 export default hoistStatics(
   compose(
@@ -17,6 +21,15 @@ export default hoistStatics(
     defaultProps({
       formRef: React.createRef(),
     }),
+
+    withStateHandlers({
+            isTermsAndConditions: false,
+        },
+        {
+            onChange: () => (field, value) => ({
+                [field]: value,
+            }),
+        }),
 
     withHandlers({
       signUp: (props) => ({
@@ -36,6 +49,17 @@ export default hoistStatics(
           console.log(err);
         }
       },
+      goToVerifyForm: (props) => () =>
+        NavigationService.navigateTo(screens.VerifyForm),
+      onCloseModal: (props) => () =>
+          props.onChange('isTermsAndConditions', false),
     }),
+      withModal(
+          (props) => ({
+              isVisible: props.isTermsAndConditions,
+              onCloseModal: props.onCloseModal,
+          }),
+          TermsAndConditionsModal,
+      ),
   ),
 )(SignUpFormView);

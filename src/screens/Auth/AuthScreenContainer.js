@@ -11,6 +11,7 @@ import { Platform } from 'react-native';
 import SoftInputMode from 'react-native-set-soft-input-mode';
 import AuthScreenView from './AuthScreenView';
 import { NavigationService } from '../../services';
+import screens from "../../navigation/screens";
 
 const isAndroid = () => Platform.OS === 'android';
 
@@ -31,6 +32,8 @@ export default hoistStatics(
 
     withHandlers({
       onSkip: () => () => NavigationService.navigateToApp(),
+      goToSingIn: ({ user }) => () =>
+        NavigationService.navigateTo(screens.SignIn),
     }),
     lifecycle({
       componentDidMount() {

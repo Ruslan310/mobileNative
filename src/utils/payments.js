@@ -73,3 +73,7 @@ export function normalizeCardData(cardNumber, cardExpiration) {
     yearExpiration,
   };
 }
+
+export const money = price => {
+  return price ? (price).toFixed(2) : 0;
+};

@@ -56,8 +56,8 @@ TabHeader.propTypes = {
   tabs: T.array,
   activeTabStyle: ViewPropTypes.style,
   inactiveTabStyle: ViewPropTypes.style,
-  inactiveTextStyle: ViewPropTypes.style,
-  activeTextStyle: ViewPropTypes.style,
+  // inactiveTextStyle: ViewPropTypes.style,
+  // activeTextStyle: ViewPropTypes.style,
   containerTabStyle: ViewPropTypes.style,
 };
 

@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { colors, dimensions } from '../../styles';
 import { isAndroid } from '../../utils';
+import {indent, smallIndent, width} from "../../styles/dimensions";
 
 const isAndroidDevice = isAndroid();
 
@@ -10,32 +11,47 @@ export default StyleSheet.create({
   },
   containerSafeAreaView: {
     flex: 1,
-    justifyContent: "center",
   },
   heading: {
+    fontWeight: '500',
     textAlign: "center",
-    marginBottom: dimensions.indentModerated * 2.3,
-    // marginTop: dimensions.indentModerated * 4,
+    textTransform: "uppercase",
+    marginBottom: 78,
   },
   headingSmall: {
     marginBottom: dimensions.indentModerated * 1.3,
-    // marginTop: dimensions.indentModerated * 3,
   },
   headingLarge: {
     marginTop: dimensions.indentModerated, // dimensions.indentModerated * 5,
     marginBottom: dimensions.indentModerated * 4,
   },
   tabViewContainer: {
-    flex: 1,
-    marginLeft: dimensions.indent,
-    marginRight: dimensions.indent,
+    height: 369,
+    paddingRight: 15,
+    paddingLeft: 15,
+    paddingTop: dimensions.smallIndent *2,
+    marginLeft: 15,
+    marginRight: 15,
     shadowOffset: {
       width: 0,
-      height: 3,
+      height: -1,
     },
-    shadowOpacity: 0.3,
-    shadowRadius: 4.7,
-    borderRadius: 10,
+    shadowOpacity: 0.12,
+    shadowRadius: 39,
+    borderRadius: 12,
+    backgroundColor: colors.authScreen.backgroundColor,
+  },
+  containerHeaderTitle: {
+
+  },
+  headerTitle: {
+    textAlign: "center",
+    fontWeight: "600"
+  },
+  subTitle: {
+    marginTop: 10,
+    textAlign: "center",
+    fontWeight: "400"
   },
   tabViewWrapper: {
     flex: 1,
@@ -47,10 +63,10 @@ export default StyleSheet.create({
   },
   circle: {
     position: "absolute",
-    width: dimensions.indentModerated * 32,
-    height: dimensions.indentModerated * 32,
-    borderRadius: (dimensions.indentModerated * 32) / 2,
-    left: -73,
+    width: width,
+    height: dimensions.indentModerated * 34,
+    borderRadius: 12,
+    // left: -73,
     top: -110,
     backgroundColor: colors.authScreen.circle,
   },
@@ -74,8 +90,22 @@ export default StyleSheet.create({
   keyboardAvoidingViewContentContainer: {
     flex: 1,
   },
-
-  toUpperCase: {
-    textTransform: "uppercase",
+  singUpButtonText: {
+    color: colors.button.backgroundColor,
+    fontWeight: "500"
+  },
+  loginButtonText: {
+    color: colors.button.backgroundColorPrimaryCustom,
+    fontWeight: "500"
+  },
+  buttonIn: {
+    marginTop: dimensions.indent * 1.7,
+    backgroundColor: colors.button.backgroundColorPrimaryCustom
+  },
+  buttonOut: {
+    marginTop: dimensions.indent,
+    borderWidth: 1,
+    borderColor: colors.button.backgroundColorPrimaryCustom,
+    backgroundColor: colors.button.backgroundColor
   },
 });

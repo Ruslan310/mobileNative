@@ -55,4 +55,24 @@ export default StyleSheet.create({
     paddingTop: dimensions.indent * 0.5,
     margin: 0,
   },
+  contentCardNumber: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginBottom: dimensions.indent,
+    marginLeft: dimensions.indent,
+    marginRight: dimensions.indent,
+  },
+  contentCardNumberSuccess: {
+    borderBottomWidth: 1,
+    borderColor: '#009576',
+  },
+  checkBox: {
+    marginTop: dimensions.indent,
+    marginRight: dimensions.indent,
+    marginLeft: dimensions.indent,
+    marginBottom: dimensions.indent,
+  },
+  checkBoxText: {
+    textDecorationLine: "none"
+  }
 });

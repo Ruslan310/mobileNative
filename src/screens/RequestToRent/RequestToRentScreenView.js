@@ -11,62 +11,63 @@ import {
   Button,
 } from '../../components';
 import i18n from '../../i18n';
+import {money} from "../../utils/payments";
 
 const RequestToRentScreen = ({
-  getStartAndEndDate,
-  price,
-  startRent,
-  diffDays,
-  product,
-  formatedDate,
-  goToRequestToRentPayment,
-}) => (
-  <SafeAreaView style={s.safeAreaViewContainer}>
-    <ScrollView containerStyle={s.container}>
-      <FormContainer
-        headerTitle={i18n.t('requestToRent.when')}
-        containerStyle={s.formContainer}
-      >
-        <Calendar
-          getStartAndEndDate={getStartAndEndDate}
-          availableDates={product.getAvailableDates}
-          employedDates={product.getEmployedDates}
-        />
-      </FormContainer>
-      <FormContainer
-        containerStyle={s.formContainer}
-        headerTitle={i18n.t('requestToRent.bookingBreakdown')}
-      >
-        <View style={s.label}>
-          <Text gray>{i18n.t('requestToRent.priceADay')}</Text>
-          <Text>{`$${price}`}</Text>
-        </View>
-        {!!startRent && (
+                               getStartAndEndDate,
+                               price,
+                               startRent,
+                               diffDays,
+                               product,
+                               formatedDate,
+                               goToRequestToRentPayment,
+                             }) => (
+    <SafeAreaView style={s.safeAreaViewContainer}>
+      <ScrollView containerStyle={s.container}>
+        <FormContainer
+            headerTitle={i18n.t('requestToRent.when')}
+            containerStyle={s.formContainer}
+        >
+          <Calendar
+              getStartAndEndDate={getStartAndEndDate}
+              availableDates={product.getAvailableDates}
+              employedDates={product.getEmployedDates}
+          />
+        </FormContainer>
+        <FormContainer
+            containerStyle={s.formContainer}
+            headerTitle={i18n.t('requestToRent.bookingBreakdown')}
+        >
           <View style={s.label}>
-            <Text gray>{formatedDate}</Text>
-            <Text>{`${diffDays} ${i18n.t('common.day')}`}</Text>
+            <Text gray>{i18n.t('requestToRent.priceADay')}</Text>
+            <Text>{`$${money(price)}`}</Text>
           </View>
-        )}
-        <View style={[s.label, s.totalPrice]}>
-          <Text black xmediumSize>
-            {i18n.t('requestToRent.totalPrice')}
-          </Text>
-          {!!diffDays && (
-            <Text black xmediumSize>
-              {`$ ${diffDays * price}`}
-            </Text>
+          {!!startRent && (
+              <View style={s.label}>
+                <Text gray>{formatedDate}</Text>
+                <Text>{`${diffDays} ${i18n.t('common.day')}`}</Text>
+              </View>
           )}
-        </View>
-      </FormContainer>
-      <Button
-        title={i18n.t('requestToRent.requestToRent')}
-        primary
-        containerStyle={s.buttonContainer}
-        disabled={!startRent}
-        onPress={goToRequestToRentPayment}
-      />
-    </ScrollView>
-  </SafeAreaView>
+          <View style={[s.label, s.totalPrice]}>
+            <Text black xmediumSize>
+              {i18n.t('requestToRent.totalPrice')}
+            </Text>
+            {!!diffDays && (
+                <Text black xmediumSize>
+                  {`$ ${money(diffDays * price)}`}
+                </Text>
+            )}
+          </View>
+        </FormContainer>
+        <Button
+            title={i18n.t('requestToRent.requestToRent')}
+            primary
+            containerStyle={s.buttonContainer}
+            disabled={!startRent}
+            onPress={goToRequestToRentPayment}
+        />
+      </ScrollView>
+    </SafeAreaView>
 );
 
 RequestToRentScreen.navigationOptions = () => ({

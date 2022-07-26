@@ -4,11 +4,12 @@
     "myListings": "My listings",
     "inbox": "Inbox",
     "rentals": "Rentals",
-    "settings": "Settings",
+    "userSettings": "User settings",
+    "accountSettings": "Account settings",
     "help": "Help",
     "logout": "Logout",
     "login": "Login",
-    "addYourGoods": "Add your goods"
+    "addYourGoods": "Add your sauna"
   },
   "main": {
     
@@ -24,29 +25,57 @@
     "nothingWasFound": "Nothing was found"
   },
   "auth": {
-    "heading": "Roobykon service",
+    "heading": "Saunatime",
+    "mainTitle": "Welcome to Saunatime",
+    "mainSubTitle": "The largest online community to rent saunas in Finland.",
     "signIn": "Sign In",
     "signUp": "Sign Up",
+    "login": "Login",
+    "loginSubtitle": "Login to be able to book saunas everywhere.",
+    "signUpSubtitle": "Sign up to be able to book saunas everywhere.",
     "email": "Email",
+    "emailPlaceholder": "Enter Email",
     "password": "Password",
+    "passwordPlaceholder": "Enter Password",
     "firstName": "First Name",
     "lastName": "Last Name",
     "resetPassword": "Forgot your password?",
-    "resetPasswordLink": "Reset Password",
+    "resetPasswordLink": "No problem",
     "termsAndConditions": "By signing up you accept the",
     "termsAndConditionsLink": "terms and conditions",
     "dontHaveAnAccount": "Dont have an account?",
     "alreadyHaveAnAccount": "Already have an account?",
     "createAccount": "Create account",
-    "sendResetEmail": "Send Email",
-    "resetPasswordHeading": "Reset your Password",
-    "resetPasswordPreInstruction": "Lorem ipsum dolor sit amet, adipiscing elit, sed do eiusmod tempor incididunt",
+    "sendResetEmail": "Send instructions",
+    "resetPasswordHeading": "Forgot your password",
+    "resetPasswordPreInstruction": "No worries! Please enter the email address you used when signing up and we'll send you instructions on how to set a new password.",
     "resetPasswordPostInstruction": "Check your email for a message with a link to update your password",
     "resetPasswordErrorInstruction": "Sorry we couldn't send email. Try send again",
     "somethingWentWrong": "Something went wrong",
     "tryAgain": "Try again",
     "emailSent": "Email sent",
     "continue": "Continue",
+    "subTextSendMail": "Suddenly remembered your password?",
+    "goToLogin": " Go log in.",
+    "yourName": "Your name",
+    "profileBio": "Your profile bio",
+    "firstNamePlaceholder": "Enter First name",
+    "lastNamePlaceholder": "Enter Last name"
+  },
+  "verify": {
+    "verifyMailTitle": " check your inbox to verify your email",
+    "verifyMailSubText": "Thanks for signing up! There's one quick step left. To be able to contact you, we need you to verify your email address. Please click the link",
+    "verifyMailSubTextLine": "we sent to",
+    "verifyMailButton": "Verify my email",
+    "textReset": "Didn't get the email?",
+    "textResetTouched": "Resend it.",
+    "errorTextReset": "Whoops, typo in your email?",
+    "errorTextResetTouched": "Fix it.",
+    "code": "Code",
+    "codePlaceholder": "Enter Code",
+    "successVerifyTitle": "Thanks for verifying your email, ",
+    "successVerifySubTitle": "Upload an avatar to finish up setting up your account.",
+    "goToApp": "Upload avatar",
     "skip": "skip"
   },
   "updatePassword": {
@@ -94,8 +123,8 @@
     "listings": "listings",
     "noListings": "You haven't got any listings yet"
   },
-  "settings": {
-    "settings": "Settings",
+  "userSettings": {
+    "userSettings": "User settings",
     "profileSettings": "Profile settings",
     "contactDetails": "Contact details",
     "passwordSettings": "Password settings",
@@ -104,6 +133,7 @@
     "firstName": "First name",
     "lastName": "Last name",
     "bio": "Profile bio",
+    "bioPlaceholder": "Tell us a little bit about yourself…",
     "email": "Email",
     "phoneNumber": "Phone number",
     "newPassword": "New Password",
@@ -119,7 +149,14 @@
     "verifyEmailSent": "Email with verify link sent. Check your email",
     "verifyEmail": "Verify email",
     "errorChangeEmail": "Wrong email",
-    "errorChangeEmailDetails": " Your current password is invalid"
+    "errorChangeEmailDetails": " Your current password is invalid",
+
+    "profileTab": "Profile",
+    "emailTab": "Email",
+    "passwordTab": "Password",
+  },
+  "accountSettings": {
+    "accountSettings": "Account Settings"
   },
   "profile": {
     "profile": "Profile",
@@ -129,6 +166,36 @@
     "listings": "Listings",
     "reviews": "Reviews",
     "testTextBio": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, seddo eiusmod tempor incididu..."
+  },
+  "payoutDetails": {
+    "titleScreen": "Payment Details",
+    "country": "Country",
+    "bankAccount": "Bank account",
+    "routingNumber": "Bank account",
+    "bankAccountNumber": "Bank account number",
+    "infoTextStripeConnected": "By saving details, you agree to the",
+    "stripeConnected": "Stripe Connected Account Agreement",
+    "titleVerifiedContainer": "Stripe needs more information",
+    "textVerifiedContainer": "In order for you to receive payments you need to add few more details to your Stripe account to verify your account.",
+    "getVerified": "Your Stripe account is up to date!",
+    "titleVerifiedContainerSuccess": "Your Stripe account is up to date!",
+    "getVerifiedSuccess": "Edit Stripe account",
+    "saveDetails": "Save details"
+  },
+  "paymentMethods": {
+    "titleScreen": "Payment Methods",
+    "cardDetails": "Payment card details",
+    "billingDetails": "Billing details",
+    "holderName": "Card holder's name",
+    "streetAddress": "Street address",
+    "apt": "Apt # • optional",
+    "postalCode": "Postal code",
+    "city": "City",
+    "state": "State • optional",
+    "country": "Country",
+    "savePaymentCard": "Save payment card",
+    "updatePayment": "Use another payment method",
+    "removePayment": "x Remove payment card"
   },
   "verifyEmail": {
     "verifyEmail": "Verify email",
@@ -400,7 +467,10 @@
     "unitedKingdom": "United Kingdom",
     "unitedStates": "United States",
     "italy": "Italy",
-    "portugal": "Portugal"
+    "portugal": "Portugal",
+    "estionia": "Estionia",
+    "greece": "Greece",
+    "latvia": "Latvia"
   },
   "rentItem": {
     "totalPrice": "Total price",
@@ -432,6 +502,12 @@
   "PrivacyPolicies": {
     "name": "Sharetribe Flex",
     "title": "PrivacyPolicies"
-
+  },
+  "TermsAndConditions": {
+    "name": "Sharetribe Flex",
+    "title": "TermsAndConditions",
+    "titleView": "Saunatime Platform",
+    "subTitleView": "Terms and Conditions",
+    "close": "Close"
   }
 }

@@ -3,7 +3,16 @@ import { dimensions } from "../../styles";
 
 export default StyleSheet.create({
   logo: {
-    alignSelf: "center",
+    alignSelf: "flex-start",
+    // alignSelf: "center",
+  },
+  logoHome: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center"
+  },
+  logoIcon: {
+    alignItems: "center"
   },
   logoSmall: {
     marginTop: dimensions.indent * 0.8,
@@ -22,6 +31,6 @@ export default StyleSheet.create({
     height: 90,
     resizeMode: "contain",
   },
-  imgSmall: { width: 100, height: 40, resizeMode: "contain" },
+  imgSmall: { width: 154, height: 50, resizeMode: "contain" },
   imgLarge: { width: 230, height: 100, resizeMode: "contain" },
 });

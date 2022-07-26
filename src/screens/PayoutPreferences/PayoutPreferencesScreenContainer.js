@@ -7,18 +7,18 @@ import {
   withProps,
   withStateHandlers,
 } from 'recompose';
-import { inject } from 'mobx-react';
-import { NavigationService, AlertService } from '../../services';
+import {inject} from 'mobx-react';
+import {NavigationService, AlertService} from '../../services';
 import PayoutPreferencesScreenView from './PayoutPreferencesScreenView';
 import screens from '../../navigation/screens';
-import { withModal, withParamsToProps } from '../../utils/enhancers';
-import { StripeTokenService } from './components';
-import { countries } from '../../constants';
+import {withModal, withParamsToProps} from '../../utils/enhancers';
+import {StripeTokenService} from './components';
+import {countries} from '../../constants';
 
 export default hoistStatics(
   compose(
     withParamsToProps('onContinue'),
-    inject(({ viewer }) => ({
+    inject(({viewer}) => ({
       user: viewer.user,
       createStripeAccount: viewer.createStripeAccount,
       isCreatingStripeAccount: viewer.createStripeAccount.inProgress,
@@ -55,26 +55,30 @@ export default hoistStatics(
           cardNumber: props.cardNumber,
         }),
 
-      onSave: (props) => (data) => {
+      onSave: (props) => async (data) => {
         props.onChange('isVisibleConnectModal', true);
         props.onChange('isCreatingTokens', true);
-
         // Get country key by country name
-        const index = countries.stripeCountriesList.findIndex(
-          (i) => i.title === data.country,
-        );
-        const countryKey = countries.stripeCountriesList[index].key;
-
-        props.onChange('stripeData', {
-          ...data,
-          country: countryKey,
-        });
+        try {
+          const index = countries.stripeCountriesList.findIndex(i => i.title === data.country);
+          const countryKey = countries.stripeCountriesList[index].key;
+          const countryCurrency = countries.stripeCountriesList[index].currency;
+          await props.createStripeAccount.run({
+            ...data,
+            currency: countryCurrency,
+            country: countryKey,
+          });
+          props.onChange('isCreatingTokens', false);
+          await props.onContinue();
+        } catch (err) {
+          AlertService.showSomethingWentWrong();
+        }
       },
 
       onCreateStripeAccount: ({
-        createStripeAccount,
-        onContinue,
-      }) => async (tokens) => {
+                                createStripeAccount,
+                                onContinue,
+                              }) => async (tokens) => {
         try {
           await createStripeAccount.run(tokens);
           await onContinue();
@@ -85,19 +89,19 @@ export default hoistStatics(
     }),
 
     withProps(
-      ({ user, isCreatingStripeAccount, isCreatingTokens }) => {
+      ({user, isCreatingStripeAccount, isCreatingTokens}) => {
         const initialValues = {
           firstName: user.profile.firstName,
           lastName: user.profile.lastName,
           email: user.email,
           birthDate: '12',
           month: '12',
-          year: '2000',
-          country: 'United States',
+          year: '2005',
+          country: 'Japan',
           streetAddress: '560 S Lawrence St',
           city: 'Montgomery',
           postalCode: '36104',
-          accountNumber: '123412341234',
+          bankAccountNumber: '000123456789',
         };
 
         const isLoading = isCreatingStripeAccount || isCreatingTokens;
@@ -109,17 +113,17 @@ export default hoistStatics(
       },
     ),
 
-    withModal(
-      (props) => ({
-        isVisible: props.isVisibleConnectModal,
-        stripeData: props.stripeData,
-        onCloseModal: () => {
-          props.onChange('isVisibleConnectModal', false);
-          props.onChange('isCreatingTokens', false);
-        },
-        onSuccess: (data) => props.onCreateStripeAccount(data),
-      }),
-      StripeTokenService,
-    ),
+    // withModal(
+    //   (props) => ({
+    //     isVisible: props.isVisibleConnectModal,
+    //     stripeData: props.stripeData,
+    //     onCloseModal: () => {
+    //       props.onChange('isVisibleConnectModal', false);
+    //       props.onChange('isCreatingTokens', false);
+    //     },
+    //     onSuccess: (data) => props.onCreateStripeAccount(data),
+    //   }),
+    //   StripeTokenService,
+    // ),
   ),
 )(PayoutPreferencesScreenView);

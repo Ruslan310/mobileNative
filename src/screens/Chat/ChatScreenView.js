@@ -22,7 +22,7 @@ import screens from '../../navigation/screens';
 
 const getConfirmationStatus = (transaction) => {
   switch (transaction) {
-    case transitionStatuses.REQUEST:
+    case transitionStatuses.CONFIRM:
     case transitionStatuses.ENQUIRE:
     case transitionStatuses.AFTER_ENQUIRE:
       return true;
@@ -47,7 +47,8 @@ function ChatScreen({
   onDeny,
   goToProduct,
   navigationToRequestToRent,
-  isOpenedChat,
+                      isOpenedChatConfirm,
+                      isOpenedChatEnquire,
   navigateToListing,
   rentPeriod,
   writeReview,
@@ -96,7 +97,8 @@ function ChatScreen({
             goToProduct={goToProduct}
             navigationToRequestToRent={navigationToRequestToRent}
             navigateToListing={navigateToListing}
-            isOpenedChat={isOpenedChat}
+            isOpenedChatConfirm={isOpenedChatConfirm}
+            isOpenedChatEnquire={isOpenedChatEnquire}
           />
         </ShadowContainer>
       )}
@@ -174,7 +176,8 @@ ChatScreen.propTypes = {
   onDeny: T.func,
   goToProduct: T.func,
   navigationToRequestToRent: T.func,
-  isOpenedChat: T.bool,
+  isOpenedChatConfirm: T.bool,
+  isOpenedChatEnquire: T.bool,
   navigateToListing: T.func,
   rentPeriod: T.object,
   writeReview: T.func,

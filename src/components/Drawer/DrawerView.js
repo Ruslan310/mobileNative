@@ -11,26 +11,32 @@ import s from './styles';
 import i18n from '../../i18n';
 import Avatar from '../Avatar/Avatar';
 
+
 const Drawer = ({
   isAuthorized,
   user,
   items,
   goToAddNewItem,
   goToProfile,
+  activeIcon,
+  onChangeTabIndex,
 }) => (
   <SafeAreaView style={s.container} forceInset={{ bottom: 'never' }}>
     <View style={s.drawerContainer}>
-      <View style={s.header}>
-        <Logo size="small" style={s.logoHeader} />
+      <View style={s.headerSvg}>
+        <Logo style={s.logoHeader} text/>
       </View>
       <View style={s.userContainer}>
-        <Avatar user={user} />
+        <Avatar large user={user} />
         <View style={s.userProfileContainer}>
           {isAuthorized ? (
             <View>
-              <Text bold black>
+              <Text bold black xxmediumSize>
                 {`${i18n.t('common.hello')}, ${user &&
                   user.profile.firstName}`}
+              </Text>
+              <Text bold black xxmediumSize>
+                {user && user.profile.lastName}
               </Text>
               <TextTouchable
                 onPress={() => goToProfile(user)}
@@ -56,6 +62,8 @@ const Drawer = ({
               {...item}
               screen={item.screen}
               key={item.iconName}
+              activeIcon={activeIcon}
+              onChangeTabIndex={onChangeTabIndex}
             />
           ))}
         </View>
@@ -63,7 +71,9 @@ const Drawer = ({
           <View style={s.addGoodsButtonContainer}>
             <Button
               primary
-              title={`+ ${i18n.t('drawer.addYourGoods')}`}
+              titleStyle={{textTransform: "uppercase"}}
+              buttonStyle={s.button}
+              title={`${i18n.t('drawer.addYourGoods')}`}
               onPress={() => goToAddNewItem()}
             />
           </View>

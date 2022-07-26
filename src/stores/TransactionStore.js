@@ -2,6 +2,7 @@
 import { types as t, getEnv, getRoot } from 'mobx-state-tree';
 import R from 'ramda';
 import { StripeService } from '../services';
+import stripe from 'tipsi-stripe';
 
 import createFlow from './helpers/createFlow';
 import processJsonApi, {
@@ -15,36 +16,8 @@ import { Booking } from './BookingStore';
 import { Review } from './ReviewsStore';
 import { normalizedIncluded } from './utils/normalize';
 import { transitionStatuses } from '../constants';
+import {stripeCustomFetch} from "../utils/customFetch";
 
-// const UnitPrice = t.model('UnitPrice', {});
-// const LineTotal = t.model('LineTotal', {});
-// const Quantity = t.model('Quantity', {
-//   value: t.number,
-// });
-// const Percentage = t.model('Percentage', {});
-// const IncludeFor = t.enumeration('LineItemsInclude', [
-//   'customer',
-//   'provider',
-// ]);
-
-// const PayInfo = t.model('Night', {
-//   code: t.string,
-//   includeFor: t.array(IncludeFor),
-//   reversal: t.boolean,
-//   // lineTotal: t.maybeNull(LineTotal),
-//   // percentage: t.optional(t.maybeNull(Percentage), null),
-//   // quantity: t.optional(t.maybeNull(Quantity), null),
-//   // unitPrice: t.optional(t.maybeNull(UnitPrice), null),
-//   lineTotal: t.frozen(),
-//   quantity: t.frozen(),
-//   unitPrice: t.frozen(),
-//   percentage: t.maybe(t.frozen()),
-// });
-
-// const LineItems = t.model('LineItems', {
-//   0: t.optional(t.maybeNull(PayInfo), null),
-//   1: t.optional(t.maybeNull(PayInfo), null),
-// });
 
 const Relationships = t.model('Relationships', {
   listing: t.maybe(t.reference(Product)),
@@ -132,10 +105,12 @@ function sentReview(flow, store) {
 }
 
 function changeStateTransactions(flow, store) {
+  console.log('store', store)
   return function* initiatechangeStateTransactionsTransaction({
     transition,
   }) {
     try {
+      console.log('initiatechangeStateTransactionsTransaction')
       flow.start();
       const res = yield store.Api.changeStateTransactions({
         transactionId: store.id,
@@ -161,11 +136,15 @@ function initiateOrderAfterEnquiry(flow, store) {
     cardNumber,
     monthExpiration,
     yearExpiration,
+    defaultPaymentMethod,
+    isUseSaveCard,
     cardCVC,
     message,
   }) {
     try {
       flow.start();
+      console.log('changeTransactionsAfterEnquiry')
+
       const expMonth = Number(monthExpiration);
       const expYear = Number(yearExpiration);
 
@@ -176,22 +155,44 @@ function initiateOrderAfterEnquiry(flow, store) {
         cvc: cardCVC,
       };
 
-      const cardToken = yield StripeService.createTokenWithCard(
-        paramsToken,
-      );
-
-      const { tokenId } = cardToken;
+      const { tokenId } = !isUseSaveCard ? yield StripeService.createTokenWithCard(paramsToken) : {};
+      const payment = !isUseSaveCard
+        ? { cardToken: tokenId }
+        : { paymentMethod: defaultPaymentMethod?.stripePaymentMethodId }
 
       const res = yield store.Api.changeTransactionsAfterEnquiry({
         transactionId,
         transition,
         listingId,
-        cardToken: tokenId,
+        payment,
         startRent,
         endRent,
       });
 
       const snapshot = processJsonApi(res.data.data);
+
+      if(snapshot) {
+        const { stripePaymentIntentClientSecret } = snapshot.protectedData.stripePaymentIntents
+            ? snapshot.protectedData.stripePaymentIntents.default
+            : null;
+
+        const { tokenId } = !isUseSaveCard ? yield StripeService.createTokenWithCard(paramsToken) : {};
+
+        const cardParams = {
+          clientSecret: stripePaymentIntentClientSecret,
+          paymentMethod: {
+            card: { token: tokenId }
+          },
+        }
+        const params = {
+          clientSecret: stripePaymentIntentClientSecret,
+          paymentMethodId: defaultPaymentMethod?.stripePaymentMethodId,
+        }
+
+        yield StripeService.confirmPaymentIntent(!isUseSaveCard ? cardParams : params);
+        yield store.Api.confirmTransaction(snapshot.id)
+      }
+
       store.update(snapshot);
       const entities = normalizedIncluded(res.data.included);
       getRoot(store).entities.merge(entities);
@@ -206,6 +207,8 @@ function initiateOrderAfterEnquiry(flow, store) {
 
       flow.success();
     } catch (err) {
+      console.log('error after enquip')
+
       flow.failed(err, true);
     }
   };
@@ -227,6 +230,7 @@ export const TransactionStore = t
   .model('ListingsStore', {
     list: TransactionList,
     initiateTransaction: createFlow(initiateTransaction),
+    // confirmTransaction: createFlow(confirmTransaction),
 
     initiateMessageTransaction: createFlow(
       initiateMessageTransaction,
@@ -290,8 +294,12 @@ function initiateTransaction(flow, store) {
     yearExpiration,
     cardCVC,
     message,
+    defaultPaymentMethod,
+    isUseSaveCard
   }) {
     try {
+      console.log('initiateTransaction',isUseSaveCard)
+
       flow.start();
       const expMonth = Number(monthExpiration);
       const expYear = Number(yearExpiration);
@@ -303,25 +311,42 @@ function initiateTransaction(flow, store) {
         cvc: cardCVC,
       };
 
-      const cardToken = yield StripeService.createTokenWithCard(
-        params,
-      );
+      const { tokenId } = !isUseSaveCard ? yield StripeService.createTokenWithCard(params) : {};
+      const payment = !isUseSaveCard
+      ? { cardToken: tokenId }
+      : { paymentMethod: defaultPaymentMethod?.stripePaymentMethodId }
 
-      const { tokenId } = cardToken;
-
+      console.log('payment', payment)
       const res = yield store.Api.initiateTransaction({
         listingId,
         startRent,
         endRent,
-        cardToken: tokenId,
+        payment,
       });
-      const normalizedEntities = normalizedIncluded(
-        res.data.included,
-      );
-      getRoot(store).entities.merge(normalizedEntities);
 
+      const normalizedEntities = normalizedIncluded(res.data.included);
+      getRoot(store).entities.merge(normalizedEntities);
       const data = processJsonApi(res.data.data);
-      store.list.addToBegin(data);
+
+      if(data) {
+        const { stripePaymentIntentClientSecret } = data.protectedData.stripePaymentIntents
+            ? data.protectedData.stripePaymentIntents.default
+            : null;
+
+        const cardParams = {
+          clientSecret: stripePaymentIntentClientSecret,
+          paymentMethod: {
+            card: { token: tokenId }
+          },
+        }
+        const params = {
+          clientSecret: stripePaymentIntentClientSecret,
+          paymentMethodId: defaultPaymentMethod?.stripePaymentMethodId,
+        }
+
+        yield StripeService.confirmPaymentIntent(!isUseSaveCard ? cardParams : params);
+        yield store.Api.confirmTransaction(data.id)
+      }
 
       if (message) {
         yield store.Api.sendMessage({
@@ -331,8 +356,11 @@ function initiateTransaction(flow, store) {
         });
       }
 
+      store.list.addToBegin(data);
+
       flow.success();
     } catch (err) {
+      console.log('error init transaction')
       flow.failed(err, true);
     }
   };
@@ -373,6 +401,7 @@ function fetchTransactions(flow, store) {
       const normalizedEntities = normalizedIncluded(
         res.data.included,
       );
+      console.log('fetchTransaction', normalizedEntities)
       getRoot(store).entities.merge(normalizedEntities);
 
       // TODO: Fetch listings for each transaction
@@ -395,6 +424,7 @@ function fetchMoreTransactions(flow, store) {
         return;
       }
 
+      console.log('fetchTransactions')
       flow.start();
       const page = store.list.pageNumber;
       const perPage = 15;

@@ -10,8 +10,10 @@ import i18n from '../../i18n';
 import Text from '../Text/Text';
 import { formatedDate } from '../../utils/dates';
 import s from './styles';
+import formatPrice from "../../utils/formatPrice";
 
 const messageImage = require('../../assets/png/message_image.png');
+const money = amount => (amount / 100).toFixed(2)
 
 function RentItem({
   isShowDetails,
@@ -79,7 +81,7 @@ function RentItem({
                   {`${i18n.t('rentItem.totalPrice')}: `}
                 </Text>
                 <Text xxsmallSize bold>
-                  {`$ ${totalAmount}`}
+                  {`$ ${money(totalAmount)}`}
                 </Text>
               </View>
             </React.Fragment>
@@ -113,7 +115,7 @@ function RentItem({
           <Text bold>{i18n.t('inbox.bookingBreakdown')}</Text>
           <View style={s.dayPrice}>
             <Text gray>{i18n.t('inbox.pricePerDay')}</Text>
-            <Text>{`$ ${amount}`}</Text>
+            <Text>{`$ ${money(amount)}`}</Text>
           </View>
           <View style={s.rentPeriod}>
             <Text gray>{rentPeriod.rangeDate}</Text>
@@ -127,7 +129,7 @@ function RentItem({
               {i18n.t('rentItem.totalPrice')}
             </Text>
             <Text bold xmediumSize>
-              {`$ ${totalAmount}`}
+              {`$ ${money(totalAmount)}`}
             </Text>
           </View>
         </View>

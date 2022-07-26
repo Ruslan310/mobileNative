@@ -15,6 +15,7 @@ import { ScreenLoader } from '../../components';
 export default hoistStatics(
   compose(
     inject((stores) => {
+        console.log('stores',stores)
       return {
         transactions: stores.transaction.list.asArray,
         transactionStore: stores.transaction,

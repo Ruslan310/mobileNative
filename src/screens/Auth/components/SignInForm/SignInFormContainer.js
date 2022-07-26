@@ -8,7 +8,9 @@ import { inject } from 'mobx-react';
 import SignInFormView from './SignInFormView';
 import { isValidEmail } from '../../../../utils/regExp';
 import { withModal } from '../../../../utils/enhancers';
-import ResetPasswordModal from '../ResetPasswordModal/ResetPasswordModalContainer';
+import ResetPassword from '../ResetPassword/ResetPasswordContainer';
+import {NavigationService} from "../../../../services";
+import screens from "../../../../navigation/screens";
 
 export default compose(
   inject((stores) => ({
@@ -36,8 +38,12 @@ export default compose(
       props.auth.loginUser.run({
         email: props.email,
         password: props.password,
+        isLogin: true,
       });
     },
+
+    goToResetPassword: (props) => () =>
+      NavigationService.navigateTo(screens.ResetPassword),
 
     onCloseModal: (props) => () =>
       props.onChange('isVisibleResetPasswordModal', false),
@@ -49,12 +55,4 @@ export default compose(
       props.password.trim().length >= 8 && isValidEmail(props.email),
     );
   }),
-
-  withModal(
-    (props) => ({
-      isVisible: props.isVisibleResetPasswordModal,
-      onCloseModal: props.onCloseModal,
-    }),
-    ResetPasswordModal,
-  ),
 )(SignInFormView);

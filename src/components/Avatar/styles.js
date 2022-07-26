@@ -20,9 +20,9 @@ export default StyleSheet.create({
     borderRadius: 38 / 2,
   },
   logoImageBackgroundLarge: {
-    width: 90,
-    height: 90,
-    borderRadius: 90 / 2,
+    width: 86,
+    height: 86,
+    borderRadius: 86 / 2,
   },
   logoBackground: {
     resizeMode: 'cover',
@@ -37,7 +37,7 @@ export default StyleSheet.create({
   },
   logoBackgroundLarge: {
     resizeMode: 'cover',
-    borderRadius: 90 / 2,
+    borderRadius: 86 / 2,
   },
   wrapper: {
     borderRadius: 10,

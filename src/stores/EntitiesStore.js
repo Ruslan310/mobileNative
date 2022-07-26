@@ -1,6 +1,6 @@
 import { createEntitiesStore } from './utils/createEntitiesStore';
 import { Product } from './ListingsStore';
-import { User } from './UserStore';
+import { StripeAccount, StripeCustomer, StripePaymentMethod, User } from './UserStore';
 import { Image } from './ImageStore';
 import { Transaction } from './TransactionStore';
 import { Message } from './MessagesStore';
@@ -15,6 +15,9 @@ const EntitiesStore = createEntitiesStore({
   message: Message,
   booking: Booking,
   reviews: Review,
+  stripeCustomer: StripeCustomer,
+  stripePaymentMethod: StripePaymentMethod,
+  stripeAccount: StripeAccount,
 });
 
 export default EntitiesStore;

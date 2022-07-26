@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { dimensions } from '../../../../styles';
 import { isSmallDevice } from '../../../../utils';
+import {smallIndent} from "../../../../styles/dimensions";
 
 const smallDevice = isSmallDevice();
 
@@ -8,12 +9,10 @@ export default StyleSheet.create({
   item: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: dimensions.indent * 0.5,
-    padding: smallDevice
-      ? dimensions.indent * 0.6
-      : dimensions.indent * 0.85,
+    marginLeft: dimensions.indent*0.5,
+    padding: dimensions.smallIndent * 1.3,
   },
   text: {
-    marginLeft: dimensions.indent * 1.5,
+    marginLeft: dimensions.smallIndent * 3,
   },
 });

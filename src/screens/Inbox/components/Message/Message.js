@@ -19,6 +19,7 @@ import {
 import { NavigationService } from '../../../../services';
 import i18n from '../../../../i18n';
 import { transitionStatuses } from '../../../../constants';
+import {money} from "../../../../utils/payments";
 
 const messageImage = require('../../../../assets/png/message_image.png');
 
@@ -29,7 +30,7 @@ const getRentProps = (value) => {
         gray: true,
         children: i18n.t('inbox.chat'),
       };
-    case transitionStatuses.REQUEST:
+    case transitionStatuses.CONFIRM:
       return {
         orange: true,
         children: i18n.t('inbox.request'),
@@ -173,7 +174,7 @@ function Message({ transaction }) {
           {!isEnquire && (
             <View style={s.rentInfo}>
               <Text xxsmallSize>
-                {`${rentPeriod.rangeDate}, $${totalAmount}`}
+                {`${rentPeriod.rangeDate}, $${money(totalAmount)}`}
               </Text>
             </View>
           )}

@@ -1,3 +1,5 @@
+import {VerifyFormScreen} from "../screens";
+
 export default {
   Main: 'Main',
   // Authorized
@@ -10,6 +12,10 @@ export default {
 
   // Auth
   Auth: 'Auth',
+  SignUp: 'SignUp',
+  SignIn: 'SignIn',
+  ResetPassword: 'ResetPassword',
+  VerifyForm: 'VerifyForm',
   App: 'App',
 
   // Common
@@ -19,7 +25,8 @@ export default {
   AddNewItem: 'AddNewItem',
   Category: 'Category',
   MyListings: 'MyListings',
-  Settings: 'Settings',
+  UserSettings: 'UserSettings',
+  AccountSettings: 'AccountSettings',
   Profile: 'Profile',
   ownProfile: 'ownProfile',
   VerifyEmail: 'VerifyEmail',
@@ -35,12 +42,15 @@ export default {
   CardList: 'CardList',
   Review: 'Review',
   Rentals: 'Rentals',
+  PaymentMethods: 'PaymentMethods',
+  PayoutDetails: 'PayoutDetails',
 
   // Stacks
   HomeStack: 'HomeStack',
   MyListingsStack: 'MyListingsStack',
   ProfileStack: 'ProfileStack',
-  SettingsStack: 'SettingsStack',
+  UserSettingsStack: 'UserSettingsStack',
+  AccountSettingsStack: 'AccountSettingsStack',
   InboxStack: 'InboxStack',
   RentalsStack: 'RentalsStack',
 };

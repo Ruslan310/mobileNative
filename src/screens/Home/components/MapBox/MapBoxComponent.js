@@ -132,7 +132,7 @@ export default hoistStatics(
 
         const item = R.path(['newFilterItem', slideIndex], props);
         if (!item) return;
-
+        console.log('item.geolocation', item.geolocation)
         const region = {
           latitude: item.geolocation.lat,
           longitude: item.geolocation.lng,

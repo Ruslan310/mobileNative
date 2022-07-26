@@ -80,7 +80,7 @@ const Avatar = ({
                 <React.Fragment>
                   <IconFonts name="edit" size={15} />
                   <Text style={s.text} bold gray xxsmallSize>
-                    {i18n.t('settings.change')}
+                    {i18n.t('userSettings.change')}
                   </Text>
                 </React.Fragment>
               )}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import {View} from 'react-native';
 import T from 'prop-types';
 import s from './styles';
 import {
@@ -7,80 +7,85 @@ import {
   Button,
   TextTouchable,
   Text,
+  HeaderBackButton,
 } from '../../../../components';
+import {SafeAreaView} from 'react-navigation';
 import i18n from '../../../../i18n';
+import AuthWith from "../AuthWith/AuthWithView";
+import FormInput from "../../../../components/FormInput/FormInput";
 
 const SignInFormView = ({
-  email,
-  password,
-  onChange,
-  activeField,
-  isValidFields,
-  signIn,
-  isSigningIn,
-  onChangeTabIndex,
-}) => (
-  <View style={s.container}>
-    <Text style={s.heading} bold xxmediumSize>
-      Sign In
-    </Text>
-    <View>
-      <InputForm
-        placeholder={i18n.t('auth.email')}
-        containerStyle={s.inputContainerEmail}
-        value={email}
-        active={activeField === 'email'}
-        onFocus={() => onChange('activeField', 'email')}
-        onBlur={() => onChange('activeField', '')}
-        onChangeText={(text) => onChange('email', text)}
-        autoCapitalize="none"
-        keyboardType="email-address"
-      />
-      <InputForm
-        placeholder={i18n.t('auth.password')}
-        containerStyle={s.inputContainerPassword}
-        value={password}
-        active={activeField === 'password'}
-        onFocus={() => onChange('activeField', 'password')}
-        onBlur={() => onChange('activeField', '')}
-        onChangeText={(text) => onChange('password', text)}
-        secureTextEntry
-        autoCapitalize="none"
-      />
-    </View>
-    <View style={s.textWithTouchableContainer}>
-      <Text style={[s.text]} smallSize gray>
-        {i18n.t('auth.resetPassword')}
+                          email,
+                          password,
+                          goToResetPassword,
+                          onChange,
+                          activeField,
+                          isValidFields,
+                          signIn,
+                          isSigningIn,
+                        }) => (
+  <SafeAreaView style={s.containerSafeAreaView}>
+    <View style={s.circle}/>
+    <View style={s.headerTitle}>
+      <Text largeSize bold white >
+        {i18n.t('auth.login')}
       </Text>
-      <TextTouchable
-        smallSize
-        onPress={() => onChange('isVisibleResetPasswordModal', true)}
-      >
-        {i18n.t('auth.resetPasswordLink')}
-      </TextTouchable>
+      <Text mediumSize white style={{textAlign: "center"}}>
+        {i18n.t('auth.loginSubtitle')}
+      </Text>
     </View>
-    <Button
-      primary
-      containerStyle={s.buttonContainer}
-      disabled={!isValidFields || isSigningIn}
-      onPress={() => signIn()}
-      isLoading={isSigningIn}
-      title={i18n.t('auth.signIn')}
-    />
-    <Text style={[s.text]} gray>
-      {i18n.t('auth.dontHaveAnAccount')}
-    </Text>
-    <View style={s.bottom}>
-      <TextTouchable
-        bold
-        alignCenter
-        onPress={() => onChangeTabIndex(1)}
-      >
-        {i18n.t('auth.signUp')}
-      </TextTouchable>
+    <View style={s.tabViewContainer}>
+      <View>
+        <FormInput
+          placeholder={i18n.t('auth.emailPlaceholder')}
+          containerStyle={s.inputContainerEmail}
+          title={i18n.t('auth.email')}
+          value={email}
+          active={activeField === 'email'}
+          onFocus={() => onChange('activeField', 'email')}
+          onBlur={() => onChange('activeField', '')}
+          onChangeText={(text) => onChange('email', text)}
+          autoCapitalize="none"
+          keyboardType="email-address"
+        />
+        <FormInput
+          placeholder={i18n.t('auth.passwordPlaceholder')}
+          containerStyle={s.inputContainerPassword}
+          title={i18n.t('auth.password')}
+          value={password}
+          active={activeField === 'password'}
+          onFocus={() => onChange('activeField', 'password')}
+          onBlur={() => onChange('activeField', '')}
+          onChangeText={(text) => onChange('password', text)}
+          inputType='password'
+          customIconName='pass'
+          autoCapitalize="none"
+        />
+      </View>
+      <View style={s.textWithTouchableContainer}>
+        <Text style={[s.text]} mediumSize gray>
+          {i18n.t('auth.resetPassword')}
+        </Text>
+        <TextTouchable mediumSize red onPress={goToResetPassword}>
+          {i18n.t('auth.resetPasswordLink')}
+        </TextTouchable>
+      </View>
+      <Button
+        primary
+        containerStyle={s.buttonContainer}
+        disabled={!isValidFields || isSigningIn}
+        onPress={() => signIn()}
+        isLoading={isSigningIn}
+        title={i18n.t('auth.login')}
+      />
+      <AuthWith/>
     </View>
-  </View>
+  </SafeAreaView>
 );
+
+SignInFormView.navigationOptions = () => ({
+  headerLeft: <HeaderBackButton/>,
+});
 
 SignInFormView.propTypes = {
   onChangeTabIndex: T.func,

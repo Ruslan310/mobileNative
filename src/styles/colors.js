@@ -6,32 +6,36 @@ export default {
     text: '#8F8F8F',
   },
   input: {
-    borderColor: '#E9E9E9',
-    labelColor: '#8F8F8F',
-    textColor: '#333333',
+    borderColor: '#ECA90A',
+    labelColor: '#9E9E9E',
+    textColor: '#000000',
     labelBackgroundColor: '#FFF',
-    activeBorderColor: '#2f6dff',
-    activeLabelColor: '#2f6dff',
+    activeBorderColor: '#000000',
+    activeLabelColor: '#9A2A1F',
     errorBorderColor: '#EB5757',
+    successBorderColor: '#009576',
   },
   textTouchable: {
-    textColor: '#2f6dff',
+    textColor: '#2F6DFE',
+    textColorCustom: '#9A2A1F',
+    textColorGreen: '#009576',
   },
   button: {
-    backgroundColorPrimary: '#2f6dff',
+    backgroundColorPrimaryCustom: '#9A2A1F',
+    backgroundColorPrimary: '#009576',
     backgroundColor: '#FFFFFF',
     borderColor: '#E9E9E9',
-    borderColorPrimary: '#2f6dff',
+    borderColorPrimary: '#009576',
     textColor: '#8F8F8F',
     textColorPrimary: '#FFFFFF',
-    shadowColor: '#2f6dff',
-    disableColor: '#8F8F8F',
-    rippleColor: '#2f6dff',
+    shadowColor: '#009576',
+    disableColor: '#9E9E9E',
+    rippleColor: '#009576',
     rippleColorPrimary: '#FFF',
   },
   authScreen: {
     backgroundColor: '#FFF',
-    circle: '#2f6dff',
+    circle: '#9A2A1F',
     heading: '#FFF',
     shadowColor: '#000',
   },
@@ -39,41 +43,43 @@ export default {
     backgroundColor: '#FFF',
   },
   text: {
-    black: '#333333',
-    gray: '#8F8F8F',
+    lightBlack: '#4A4A4A',
+    black: '#000',
+    gray: '#9E9E9E',
     white: '#FFF',
-    orange: '#2f6dff',
-    red: '#EB5757',
+    orange: '#2F6DFE',
+    red: '#9A2A1F',
     lightGray: '#D9D9D9',
     green: '#27AE60',
   },
   loader: {
     primary: '#FFF',
-    secondary: '#2f6dff',
+    secondary: '#9A2A1F',
   },
   resetPasswordModal: {
     backgroundColor: '#FFF',
   },
   icon: {
-    tintColorOrange: '#2f6dff',
+    tintColorOrange: '#9A2A1F',
     tintColorGray: '#8F8F8F',
   },
   header: {
     tintColor: '#FFF',
     backButton: '#FFF',
-    backgroundColor: '#2f6dff',
+    backgroundColor: '#9A2A1F',
     drawerButton: '#FFF',
   },
   statusBar: {
-    backgroundColor: '#2f6dff',
+    backgroundColor: '#9A2A1F',
   },
   drawer: {
-    header: '#2f6dff',
+    header: '#9A2A1F',
     backgroundColor: '#FFF',
-    logoBackgroundColor: '#2f6dff',
+    logoBackgroundColor: '#9A2A1F',
+    userContainer: '#FFEEEF',
   },
   drawerItem: {
-    rippleColor: '#2f6dff',
+    rippleColor: '#9A2A1F',
   },
   addPhotoButton: {
     borderColor: '#E9E9E9',
@@ -93,11 +99,11 @@ export default {
     backgroundColorDropDownList: '#FFF',
   },
   switch: {
-    borderColor: '#2f6dff',
-    icon: '#2f6dff',
+    borderColor: '#9A2A1F',
+    icon: '#9A2A1F',
     backgroundColor: '#fff',
     activeIcon: '#fff',
-    activeBackgroundColor: '#2f6dff',
+    activeBackgroundColor: '#9A2A1F',
   },
   homeScreen: {
     backgroundColor: '#F8F8F8',
@@ -105,7 +111,7 @@ export default {
   },
   productButton: {
     backgroundColor: '#fff',
-    rippleColor: '#2f6dff',
+    rippleColor: '#9A2A1F',
   },
   textPicker: {
     icon: '#8F8F8F',
@@ -117,7 +123,7 @@ export default {
     backgroundColor: '#FFF',
   },
   primaryColors: {
-    orange: '#2f6dff',
+    orange: '#9A2A1F',
   },
   myListingsScreen: {
     backgroundColor: '#F8F8F8',
@@ -140,7 +146,7 @@ export default {
     backgroundColor: '#FFF',
     activeColor: '#FFF',
     inactiveColor: '#FFF',
-    activeText: '#2f6dff',
+    activeText: '#9A2A1F',
     text: '#8F8F8F',
     red: '#ff0000',
   },
@@ -176,7 +182,7 @@ export default {
     availableDate: '#27AE60',
     employedDate: '#EB5757',
     labelBorderColor: '#E9E9E9',
-    selectedDate: '#2f6dff',
+    selectedDate: '#9A2A1F',
     selectedDateText: '#FFF',
     disableDate: '#333333',
     arrows: '#333333',
@@ -188,7 +194,7 @@ export default {
     backgroundColor: '#F8F8F8',
   },
   cardItem: {
-    iconCheck: '#2f6dff',
+    iconCheck: '#9A2A1F',
     iconCheckBorder: '#E9E9E9',
   },
 
@@ -220,7 +226,7 @@ export default {
   },
 
   weekDay: {
-    primary: '#2f6dff',
+    primary: '#9A2A1F',
     borderColor: '#E9E9E9',
     white: '#FFF',
   },
@@ -240,16 +246,16 @@ export default {
   },
 
   ratingTable: {
-    activeColor: '#2f6dff',
+    activeColor: '#9A2A1F',
     backgroundLine: '#E9E9E9',
     backgroundColor: '#FFF',
     borderBottomColor: '#E9E9E9',
   },
 
   rentalsTab: {
-    activeColor: '#2f6dff',
+    activeColor: '#9A2A1F',
     backgroundLine: '#E9E9E9',
-    backgroundColor: '#2f6dff',
+    backgroundColor: '#9A2A1F',
     borderBottomColor: '#E9E9E9',
     text: '#FFF',
     white: '#FFF',
@@ -263,7 +269,7 @@ export default {
   mapView: {
     backgroundColor: '#FFFFFF',
     activeText: '#FFFFFF',
-    backgroundActiveColor: '#2f6dff',
+    backgroundActiveColor: '#9A2A1F',
     cardBackgroundColor: '#FFFFFF',
   },
 };

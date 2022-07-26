@@ -25,6 +25,8 @@ import Label from './components/Label/Label';
 import DescriptionTab from './components/DescriptionTab/DescriptionTabContainer';
 
 import { colors } from '../../styles';
+import {formatPrice} from "../../utils";
+import {money} from "../../utils/payments";
 
 const placeholderImage = require('../../assets/png/Group.png');
 
@@ -39,9 +41,6 @@ const tabs = [
   },
 ];
 
-const formatMoney = (price) => {
-  return price ? (price / 100).toFixed(2) : 0;
-};
 
 const ProductScreen = ({
   onChangeIndex,
@@ -105,7 +104,7 @@ const ProductScreen = ({
           <Text xbigSize bold>
             {`$${
               product.price && product.price.amount
-                ? formatMoney(product.price.amount)
+                ? money(product.price.amount)
                 : 0
             }`}
           </Text>

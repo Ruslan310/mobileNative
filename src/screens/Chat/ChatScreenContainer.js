@@ -43,9 +43,12 @@ export default hoistStatics(
         ['relationships', 'listing', 'id'],
         transaction,
       ),
-      isOpenedChat:
-        R.pathOr(false, ['lastTransition'], transaction) ===
-        transitionStatuses.ENQUIRE,
+      isOpenedChatConfirm:
+          R.pathOr(false, ['lastTransition'], transaction) ===
+            transitionStatuses.CONFIRM,
+      isOpenedChatEnquire:
+          R.pathOr(false, ['lastTransition'], transaction) ===
+            transitionStatuses.ENQUIRE,
       listingAuthor: R.pathOr(
         '',
         [

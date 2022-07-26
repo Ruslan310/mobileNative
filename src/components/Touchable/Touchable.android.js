@@ -52,7 +52,7 @@ Touchable.propTypes = {
   backgroundType: T.any,
   borderless: T.bool,
   useForeground: T.bool,
-  style: T.object,
+  // style: T.object,
 };
 
 export default Touchable;

@@ -69,7 +69,7 @@ function fetchMessages(flow, store) {
       const normalizedEntities = normalizedIncluded(
         res.data.included,
       );
-
+      console.log('fetchMessage',normalizedEntities)
       getRoot(store).entities.merge(normalizedEntities);
       store.list.set(res.data.data);
 

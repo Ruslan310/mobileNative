@@ -1,7 +1,8 @@
 export const transitionStatuses = {
   REQUEST: 'transition/request',
   ENQUIRE: 'transition/enquire',
-  AFTER_ENQUIRE: 'transition/request-after-enquiry',
+  CONFIRM: 'transition/confirm-payment',
+  AFTER_ENQUIRE: 'transition/request-payment-after-enquiry',
   ACCEPT: 'transition/accept',
   DECLINE: 'transition/decline',
   EXPIRED: 'transition/expired',

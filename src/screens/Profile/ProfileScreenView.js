@@ -103,11 +103,9 @@ const ProfileScreen = ({
 );
 
 ProfileScreen.navigationOptions = ({ navigation }) => ({
-  headerLeft: navigation.getParam('isDrawerButton') ? (
-    <DrawerButton />
-  ) : (
-    <HeaderBackButton />
-  ),
+  headerLeft: navigation.getParam('isDrawerButton')
+      ? <DrawerButton />
+      : <HeaderBackButton />,
   title: navigation.getParam('userName', 'User profile'),
 });
 

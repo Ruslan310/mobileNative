@@ -13,12 +13,10 @@ import {
 } from '../../../../components';
 import i18n from '../../../../i18n';
 import { NavigationService } from '../../../../services';
+import {money} from "../../../../utils/payments";
 
 const placeholderImage = require('../../../../assets/png/Group.png');
 
-const formatMoney = (price) => {
-  return price ? (price / 100).toFixed(2) : 0;
-};
 
 function CarouselItem({ item, isLoading }) {
   const image = R.pathOr(
@@ -51,7 +49,7 @@ function CarouselItem({ item, isLoading }) {
             <View style={s.priceAndLease}>
               <View style={s.priceContainer}>
                 <Text xmedium bold>
-                  {`$${formatMoney(item.price.amount)}`}
+                  {`$${money(item.price.amount)}`}
                 </Text>
                 <Text xmedium gray style={s.day}>
                   {`/${i18n.t("home.day")}`}
@@ -66,7 +64,7 @@ function CarouselItem({ item, isLoading }) {
               )}
             </View>
             <View style={s.titleTextContainer}>
-              <Text xxmedium black>
+              <Text xxmediumSize black>
                 {item.title}
               </Text>
             </View>

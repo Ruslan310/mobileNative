@@ -15,24 +15,25 @@ import { isAndroid } from '../../utils';
 import s from './styles';
 import { dimensions, colors } from '../../styles';
 import IconFonts from '../IconFonts/IconFonts';
+import IconCard from "../IconCard/IconSvg";
 
 const AnimatedTextInput = A.createAnimatedComponent(TextInput);
 
 const animationConfig = createAnimationConfig({
   animation: {
-    type: 'timing',
-    duration: 350,
-    easing: Easing.inOut(Easing.poly(5)),
+    // type: 'timing',
+    // duration: 400,
+    // easing: Easing.inOut(Easing.poly(5)),
   },
   values: {
-    fontSize: { from: 14, to: 11 },
-    translateYLabel: {
-      from: isAndroid ? -2 : 0,
-      to: isAndroid
-        ? -dimensions.indent * 1.5
-        : -dimensions.indent * 1.2,
-    },
-    translateY2Input: { from: 0, to: 0 },
+    // fontSize: { from: 16, to: 11 },
+    // translateYLabel: {
+    //   from: isAndroid ? -2 : 0,
+    //   to: isAndroid
+    //     ? -dimensions.indent * 1.5
+    //     : -dimensions.indent * 1.2,
+    // },
+    // translateY2Input: { from: 0, to: 0 },
   },
 });
 
@@ -49,7 +50,9 @@ const AnimatedFormInput = ({
   placeholder,
   active,
   iconName,
+  customIconName,
   onPressIcon,
+  customIconNameLeft,
   iconNameLeft,
   onPressIconLeft,
   iconInInputPlaceholder,
@@ -64,6 +67,7 @@ const AnimatedFormInput = ({
         s.animatedContainer,
         containerStyle,
         active && s.activeContainer,
+        (!active && !!value && value.length > 0) && s.successContainer,
       ]}
     >
       <Reanimatable
@@ -72,11 +76,18 @@ const AnimatedFormInput = ({
       >
         {({ fontSize, translateYLabel, translateY2Input }) => (
           <View>
+            {/*{!!customIconNameLeft &&*/}
+            {/*  <IconFonts*/}
+            {/*  name={customIconNameLeft}*/}
+            {/*  size={20}*/}
+            {/*  style={s.iconLeft}*/}
+            {/*  onPress={onPressIconLeft}*/}
+            {/*/>}*/}
             {!!iconNameLeft && (
               <IconFonts
-                name={iconNameLeft}
-                size={20}
-                style={s.iconLeft}
+                type={iconNameLeft}
+                style={s.iconCustomLeft}
+                active={iconTintColor}
                 onPress={onPressIconLeft}
               />
             )}
@@ -85,10 +96,10 @@ const AnimatedFormInput = ({
                 s.inputLabel,
                 !!iconNameLeft && s.inputLabelWithLeftIcon,
                 labelStyle,
-                {
-                  fontSize,
-                  transform: [{ translateY: translateYLabel }],
-                },
+                // {
+                //   fontSize,
+                //   transform: [{ translateY: translateYLabel }],
+                // },
                 !active &&
                   !!value &&
                   value.length === 0 &&
@@ -96,11 +107,11 @@ const AnimatedFormInput = ({
                 active && s.activeLabel,
               ]}
             >
-              {placeholder}
+              { value.length === 0 && placeholder}
               {!!iconInInputPlaceholder && (
                 <IconFonts
                   name={iconInInputPlaceholder}
-                  size={14}
+                  size={16}
                   tintColor={
                     isShowingFormInfo
                       ? colors.icon.tintColorOrange
@@ -115,7 +126,7 @@ const AnimatedFormInput = ({
             <AnimatedTextInput
               {...props}
               hitSlop={{
-                top: 32,
+                top: 22,
                 bottom: 32,
                 right: 8,
                 left: 8,
@@ -126,12 +137,20 @@ const AnimatedFormInput = ({
                 !!iconName && s.inputWithIcon,
                 !!iconNameLeft && s.inputWithLeftIcon,
                 inputStyle,
-                {
-                  transform: [{ translateY: translateY2Input }],
-                },
+                // {
+                //   transform: [{ translateY: translateY2Input }],
+                // },
               ]}
               ref={textInputRef}
             />
+            {customIconName &&
+              <IconCard
+                type={customIconName}
+                style={s.iconCustom}
+                onPress={onPressIcon}
+                active={iconTintColor}
+              />
+            }
             {!!iconName && (
               <IconFonts
                 name={iconName}

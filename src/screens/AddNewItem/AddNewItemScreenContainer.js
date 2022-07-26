@@ -48,6 +48,7 @@ export default hoistStatics(
     inject(({ listings, viewer, userInterface }, { product }) => ({
       listings,
       user: viewer.user,
+      getCurrentUser: viewer.getCurrentUser,
       isLoading:
         listings.createListing.inProgress ||
         R.pathOr(false, ['update', 'inProgress'], product),
@@ -233,10 +234,20 @@ export default hoistStatics(
 
       createListing: (props) => async () => {
         Keyboard.dismiss();
-
+        console.log('createListing start')
         try {
           if (props.defaultLocation !== props.location) {
+            console.log('location Error')
             props.onChange('isErrorPlaceDetails', true);
+            AlertService.showAlert(title, content, [
+              {
+                text: 'ошибка с локацией',
+                onPress: () => {
+                  props.userInterface.setShouldShowVerifyModal(false);
+                  NavigationService.navigateToHome();
+                },
+              },
+            ]);
             throw new Error();
           }
 
@@ -254,13 +265,15 @@ export default hoistStatics(
             entriesDay: transformEntries(props.entries),
           });
 
-          const title = props.userInterface.shouldShowVerifyModal
-            ? i18n.t('stripeVerifyInstructions.attention')
-            : i18n.t('alerts.createListingSuccess.title');
+          const title = i18n.t('alerts.createListingSuccess.title')
+          // const title = props.userInterface.shouldShowVerifyModal
+          //   ? i18n.t('stripeVerifyInstructions.attention')
+          //   : i18n.t('alerts.createListingSuccess.title');
 
-          const content = props.userInterface.shouldShowVerifyModal
-            ? i18n.t('stripeVerifyInstructions.message')
-            : i18n.t('alerts.createListingSuccess.message');
+          const content = i18n.t('alerts.createListingSuccess.message')
+          // const content = props.userInterface.shouldShowVerifyModal
+          //   ? i18n.t('stripeVerifyInstructions.message')
+          //   : i18n.t('alerts.createListingSuccess.message');
           AlertService.showAlert(title, content, [
             {
               text: i18n.t('common.ok'),
@@ -365,7 +378,8 @@ export default hoistStatics(
         props.getPredictions();
       },
 
-      publishListing: (props) => () => {
+      publishListing: (props) => async () => {
+        console.log('stripeConnected', props.user.stripeConnected)
         if (!props.user.stripeConnected) {
           NavigationService.navigateTo(screens.PayoutPreferences, {
             onContinue: props.createListing,

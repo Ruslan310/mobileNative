@@ -4,12 +4,13 @@ import R from 'ramda';
 import { NavigationService, AlertService } from '../services';
 import i18n from '../i18n';
 import createFlow from './helpers/createFlow';
+import screens from "../navigation/screens";
 
 function loginUser(flow, store) {
-  return function* loginUser({ email, password }) {
+  return function* loginUser({ email, password, isLogin = false }) {
     try {
       flow.start();
-
+      console.log('loginUser', email, password)
       yield store.Api.login({ email, password });
 
       const rootStore = getRoot(store);
@@ -19,7 +20,9 @@ function loginUser(flow, store) {
       flow.success();
 
       store.setAuthorizationStatus(true);
-      NavigationService.navigateToApp();
+      if(isLogin) {
+        NavigationService.navigateToApp();
+      }
     } catch (err) {
       flow.failed();
       AlertService.showAlert(
@@ -39,20 +42,20 @@ function registerUser(flow, store) {
   }) {
     try {
       flow.start();
-
       yield store.Api.register({
         firstName,
         email,
         lastName,
         password,
-        displayName: `${firstName} ${lastName}`,
+        displayName: `${firstName} ${lastName}`
       });
-
       yield store.loginUser.run({ email, password });
-
+      NavigationService.navigateTo(screens.VerifyForm, {
+        firstName,
+        email
+      })
       flow.success();
-
-      store.setAuthorizationStatus(true);
+      // store.setAuthorizationStatus(true);
     } catch (err) {
       const errorPath = R.pathOr(
         false,
@@ -80,9 +83,12 @@ function resetPassword(flow, store) {
   return function* resetPassword({ email }) {
     try {
       flow.start();
-
-      yield store.Api.resetPassword({ email });
+      console.log('resetPassword')
+      const data = yield store.Api.resetPassword({
+        email,
+      });
       flow.success();
+      return data
     } catch (err) {
       flow.failed();
     }

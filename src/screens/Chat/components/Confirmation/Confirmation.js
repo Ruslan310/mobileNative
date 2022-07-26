@@ -14,12 +14,13 @@ import s from './styles';
 
 function Confirmation({
   setShowDetails,
-  isShowDetails,
+                        isOpenedChatConfirm,
+                        isOpenedChatEnquire,
   transaction,
   onAccept,
   onDeny,
   navigationToRequestToRent,
-  isOpenedChat,
+  isShowDetails,
   navigateToListing,
 }) {
   const isUserCustomer = R.pathOr(
@@ -49,21 +50,22 @@ function Confirmation({
       )}
     </Touchable>
   );
+
   return (
     <View
       style={[
         s.container,
-        (!isUserCustomer || isOpenedChat) && s.minHeight,
+        (isOpenedChatConfirm || isOpenedChatEnquire) && s.minHeight,
       ]}
     >
       <RentItem
         isShowDetails={isShowDetails}
         transaction={transaction}
-        isOpenedChat={isOpenedChat}
+        isOpenedChat={isOpenedChatEnquire}
         navigationToRequestToRent={navigationToRequestToRent}
         navigateToListing={navigateToListing}
       />
-      {!isOpenedChat && (
+      {isOpenedChatConfirm && (
         <React.Fragment>
           <View style={s.buttonContainer}>
             {isUserCustomer && (
@@ -92,17 +94,17 @@ function Confirmation({
             {!isUserCustomer && (
               <View style={s.viewGoods}>{detailsButton()}</View>
             )}
-            <View style={s.viewGoods}>
-              <Touchable
-                orange
-                xsmallSize
-                onPress={navigateToListing}
-              >
-                <Text xxsmallSize orange>
-                  View goods
-                </Text>
-              </Touchable>
-            </View>
+            {/*<View style={s.viewGoods}>*/}
+            {/*  <Touchable*/}
+            {/*    orange*/}
+            {/*    xsmallSize*/}
+            {/*    onPress={navigateToListing}*/}
+            {/*  >*/}
+            {/*    <Text xxsmallSize orange>*/}
+            {/*      View goods*/}
+            {/*    </Text>*/}
+            {/*  </Touchable>*/}
+            {/*</View>*/}
           </View>
           {isUserCustomer && detailsButton()}
         </React.Fragment>

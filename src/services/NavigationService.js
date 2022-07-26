@@ -72,6 +72,14 @@ class NavigationService {
     this.navigate(screens.Profile, props);
   }
 
+  navigateToPaymentMethods(props) {
+    this.navigate(screens.PaymentMethods, props);
+  }
+
+  navigateToPayoutDetails(props) {
+    this.navigate(screens.PayoutDetails, props);
+  }
+
   navigateToHelp(props) {
     this.navigate(screens.Home, props);
   }

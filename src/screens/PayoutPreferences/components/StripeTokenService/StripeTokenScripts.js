@@ -5,6 +5,7 @@ export const html = `
 `;
 
 export function getStripeTokens(data) {
+  console.log('создаем страйп', data)
   return `
     const stripe = window.Stripe("${config.STRIPE_API_KEY}");
 
@@ -26,7 +27,6 @@ export function getStripeTokens(data) {
             year: ${Number(data.year)},
           },
           email: '${data.email}',
-          
         },
         tos_shown_and_accepted: true,
       });

@@ -2,7 +2,7 @@ import {
   compose,
   withHandlers,
   withPropsOnChange,
-  withState,
+  withState, withStateHandlers,
 } from 'recompose';
 import { inject } from 'mobx-react/native';
 import DrawerView from './DrawerView';
@@ -12,14 +12,28 @@ import screens from '../../navigation/screens';
 import { withLoadingModal } from '../../utils/enhancers';
 
 export default compose(
-  inject((stores) => ({
-    isAuthorized: stores.auth.isAuthorized,
-    logout: stores.auth.logout,
-    user: stores.viewer.user,
-    isLogout: stores.auth.logout.inProgress,
-  })),
+  inject((stores) => {
+    return ({
+      isAuthorized: stores.auth.isAuthorized,
+      logout: stores.auth.logout,
+      user: stores.viewer.user,
+      getCurrentUser: stores.viewer.getCurrentUser,
+      isLogout: stores.auth.logout.inProgress,
+    })
+  }),
 
   withState('items', 'setItems', []),
+
+  withStateHandlers(
+    {
+      activeIcon: 'home',
+    },
+    {
+      onChangeTabIndex: () => (index) => ({
+        activeIcon: index,
+      }),
+    },
+  ),
 
   withHandlers({
     logout: (props) => () =>
@@ -70,7 +84,7 @@ export default compose(
       {
         screen: screens.Inbox,
         title: i18n.t('drawer.inbox'),
-        iconName: 'message',
+        iconName: 'inbox',
       },
       {
         screen: screens.Rentals,
@@ -78,9 +92,15 @@ export default compose(
         iconName: 'rentals',
       },
       {
-        screen: screens.Settings,
-        title: i18n.t('drawer.settings'),
-        iconName: 'settings',
+        screen: screens.UserSettings,
+        title: i18n.t('drawer.userSettings'),
+        iconName: 'userSettings',
+        // func: props.getCurrentUser,
+      },
+      {
+        screen: screens.AccountSettings,
+        title: i18n.t('drawer.accountSettings'),
+        iconName: 'accountSettings',
       },
       {
         screen: screens.Help,

@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
 import { colors, dimensions } from '../../../../styles';
 import { isSmallDevice, isAndroid } from '../../../../utils';
+import {width} from "../../../../styles/dimensions";
 
 const smallDevice = isSmallDevice();
-const isAndroidDevice = isAndroid();
 
 export default StyleSheet.create({
   container: {
@@ -12,34 +12,13 @@ export default StyleSheet.create({
     paddingHorizontal: dimensions.indent,
     borderRadius: 10,
   },
-  heading: {
-    marginTop: smallDevice
-      ? dimensions.indent * 0.9
-      : dimensions.indentModerated * 1.1,
-    marginBottom: smallDevice
-      ? dimensions.indent
-      : dimensions.indentModerated * 1.2,
-    textAlign: 'center',
-  },
   text: {
     textAlign: 'center',
-  },
-  textWithTouchableContainer: {
-    flexDirection: smallDevice ? 'column' : 'row',
+    marginBottom: 7
   },
   bottom: {
     marginTop: dimensions.indent * 0.5,
     marginBottom: dimensions.indentModerated,
-  },
-  inputContainerEmail: {
-    marginBottom: smallDevice
-      ? dimensions.indent * 0.9
-      : dimensions.indent * 1.1,
-  },
-  inputContainerPassword: {
-    marginBottom: smallDevice
-      ? dimensions.indent * 0.6
-      : dimensions.indent * 0.8,
   },
   inputContainerFirstAndLastNames: {
     alignItems: 'center',
@@ -47,18 +26,6 @@ export default StyleSheet.create({
     marginBottom: smallDevice
       ? dimensions.indent * 0.9
       : dimensions.indent,
-  },
-  inputContainer: {
-    flex: 1,
-  },
-  inputLeft: {
-    marginRight: dimensions.indent,
-  },
-  buttonContainer: {
-    marginVertical:
-      smallDevice || isAndroidDevice
-        ? dimensions.indent * 0.6
-        : dimensions.indent * 0.8,
   },
   alignCenter: {
     justifyContent: 'center',
@@ -69,4 +36,50 @@ export default StyleSheet.create({
   borderRadius: {
     borderRadius: 10,
   },
+  textWithTouchableContainer: {
+    marginTop: dimensions.indent * 0.5,
+    flexDirection: 'column',
+    justifyContent: "center",
+    marginBottom: dimensions.indent
+  },
+  inputContainer: {
+    marginBottom: dimensions.indent * 1.4,
+  },
+  containerSafeAreaView: {
+    flex: 1,
+  },
+  heading: {
+    fontWeight: '500',
+    textAlign: "center",
+    textTransform: "uppercase",
+    marginBottom: dimensions.indentModerated * 2.3,
+  },
+  tabViewContainer: {
+    minHeight: 569,
+    paddingRight: 15,
+    paddingLeft: 15,
+    paddingTop: 25,
+    shadowOffset: {
+      width: 0,
+      height: -1,
+    },
+    shadowOpacity: 0.12,
+    shadowRadius: 39,
+    borderRadius: 12,
+    backgroundColor: colors.authScreen.backgroundColor,
+  },
+  headerTitle: {
+    alignItems: "center",
+    marginBottom: dimensions.smallIndent * 2,
+    marginTop: dimensions.indent * 1.2
+  },
+  circle: {
+    position: "absolute",
+    width: width,
+    height: dimensions.indentModerated * 29.8,
+    borderRadius: 12,
+    top: -110,
+    backgroundColor: colors.authScreen.circle,
+  }
+
 });

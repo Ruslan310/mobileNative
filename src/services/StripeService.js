@@ -8,13 +8,22 @@ class StripeService {
     });
   }
 
-  paymentRequestWithCardForm(options) {
-    return stripe.paymentRequestWithCardForm(options);
+  createTokenWithBankAccount(params) {
+    return stripe.createTokenWithBankAccount(params);
+  }
+
+  createPaymentMethod(params) {
+    return stripe.createPaymentMethod(params);
   }
 
   createTokenWithCard(params) {
     return stripe.createTokenWithCard(params);
   }
+
+  confirmPaymentIntent(params) {
+    return stripe.confirmPaymentIntent(params)
+  }
+
 }
 
 export default new StripeService();

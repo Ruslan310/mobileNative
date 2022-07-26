@@ -165,6 +165,8 @@ export const PaymentSchema = Yup.object().shape({
     .max(4, i18n.t('errors.incorrectCardCVC'))
     .required(i18n.t('errors.incorrectCardCVC')),
 });
+export const PaymentSchemaFalse = Yup.object().shape({
+});
 
 const stripeCountriesList = countries.stripeCountriesList.map(
   (i) => i.title,
@@ -217,9 +219,81 @@ export const PayoutSchema = Yup.object().shape({
     .min(1)
     .max(100)
     .required(i18n.t('errors.require')),
-  accountNumber: Yup.string()
+  bankAccountNumber: Yup.string()
     .trim()
     .min(12)
     .max(12)
+    .required(i18n.t('errors.require')),
+});
+
+
+export const PaymentMethods = Yup.object().shape({
+  cardNumber: Yup.string()
+      .trim()
+      .min(19, i18n.t('errors.incorrectCardNumber'))
+      .max(22, i18n.t('errors.incorrectCardNumber'))
+      .required(i18n.t('errors.incorrectCardNumber')),
+  cardExpiration: Yup.string()
+      .trim()
+      .min(5, i18n.t('errors.incorrectCardExpiration'))
+      .max(5, i18n.t('errors.incorrectCardExpiration'))
+      .required(i18n.t('errors.incorrectCardExpiration')),
+  cardCVC: Yup.string()
+      .trim()
+      .min(3, i18n.t('errors.incorrectCardCVC'))
+      .max(4, i18n.t('errors.incorrectCardCVC'))
+      .required(i18n.t('errors.incorrectCardCVC')),
+  country: Yup.string()
+      .trim()
+      .min(1)
+      .max(100)
+      .oneOf(stripeCountriesList, i18n.t('errors.stripeCounties'))
+      .required(i18n.t('errors.require')),
+  streetAddress: Yup.string()
+      .trim()
+      .min(1)
+      .max(100)
+      .required(i18n.t('errors.require')),
+  postalCode: Yup.string()
+      .trim()
+      .min(1)
+      .max(10)
+      .required(i18n.t('errors.require')),
+  city: Yup.string()
+      .trim()
+      .min(1)
+      .max(100)
+      .required(i18n.t('errors.require')),
+});
+
+export const PaymentDetailsUpdate = Yup.object().shape({
+  country: Yup.string()
+    .trim()
+    .min(1)
+    .max(30)
+    .oneOf(stripeCountriesList, i18n.t('errors.stripeCounties'))
+    .required(i18n.t('errors.require')),
+  routingNumber: Yup.string()
+    .trim()
+    .min(1)
+    .max(30)
+    .required(i18n.t('errors.require')),
+  bankAccountNumber: Yup.string()
+    .trim()
+    .min(1)
+    .max(30)
+    .required(i18n.t('errors.require')),
+});
+
+export const PaymentDetailsCreate = Yup.object().shape({
+  routingNumber: Yup.string()
+    .trim()
+    .min(1)
+    .max(30)
+    .required(i18n.t('errors.require')),
+  bankAccountNumber: Yup.string()
+    .trim()
+    .min(1)
+    .max(30)
     .required(i18n.t('errors.require')),
 });

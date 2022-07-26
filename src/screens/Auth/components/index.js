@@ -7,4 +7,8 @@ export {
 
 export {
   default as ResetPasswordModal,
-} from './ResetPasswordModal/ResetPasswordModalContainer';
+} from './ResetPassword/ResetPasswordModalContainer';
+
+export {
+  default as TermsAndConditionsModal,
+} from './TermsAndConditionsModal/TermsAndConditionsContainer';

@@ -7,10 +7,8 @@ import s from './styles';
 import i18n from '../../i18n';
 import { colors } from '../../styles';
 import { formatPrice } from '../../utils';
+import {money} from "../../utils/payments";
 
-const formatMoney = (price) => {
-  return price ? (price / 100).toFixed(2) : 0;
-};
 
 const ProductButton = ({ onPress, title, price, src, forTwoColumns }) => (
   <View style={s.container}>
@@ -33,7 +31,7 @@ const ProductButton = ({ onPress, title, price, src, forTwoColumns }) => (
             <Text numberOfLines={1}>{title}</Text>
             <View style={s.price}>
               <Text xmediumSize bold black>
-                {`$ ${formatMoney(price)}`}
+                {`$ ${money(price)}`}
               </Text>
               <Text xxsmallSize gray>
                 {`/${i18n.t("home.day")}`}

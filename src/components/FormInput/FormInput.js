@@ -21,11 +21,15 @@ const FormInput = ({
   inputType,
   onPressIcon,
   iconName,
+  customIconName,
   iconNameLeft,
   onChangeText,
   infoMessage,
   active,
+  disabled,
   secureTextEntry,
+  title,
+  titleStyle,
   validateOnTouched = true,
   ...props
 }) => {
@@ -66,7 +70,10 @@ const FormInput = ({
   };
 
   return (
-    <View style={[containerStyle]}>
+    <View style={[containerStyle]} pointerEvents={ disabled ? 'none' : "auto"}>
+      <Text style={[ s.title, titleStyle]}>
+        {title}
+      </Text>
       <InputForm
         {...props}
         value={props.value}
@@ -77,7 +84,8 @@ const FormInput = ({
         secureTextEntry={secureTextEntryStatus || secureTextEntry}
         onPressIcon={onPress}
         iconNameLeft={iconNameLeft}
-        iconName={iconName || (inputType === 'password' && 'eye')}
+        iconName={iconName}
+        customIconName={customIconName}
         iconTintColor={
           secureTextEntryStatus
             ? colors.icon.tintColorGray
@@ -114,18 +122,19 @@ FormInput.Field = ({ name, ...restProps }) => (
   </Field>
 );
 
-FormInput.FieldWithDropDown = ({ name, ...restProps }) => (
+FormInput.FieldWithDropDown = ({ name, dropDownStyle, disabled, ...restProps }) => (
   <Field
     type={_.isFunction(restProps.onPress) ? 'touchable' : 'text'}
     name={name}
+    dropDownStyle={dropDownStyle}
     {...restProps}
   >
     {(props) => (
       <React.Fragment>
-        <FormInput {...restProps} {...props} />
+        <FormInput {...restProps} {...props} disabled={disabled} />
         {props.active && restProps.dropDownList.length !== 0 && (
           <FlatList
-            style={s.dropDownList}
+            style={[s.dropDownList, dropDownStyle]}
             keyExtractor={restProps.keyExtractor}
             data={restProps.dropDownList}
             nestedScrollEnabled

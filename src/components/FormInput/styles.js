@@ -5,6 +5,12 @@ export default StyleSheet.create({
   inputError: {
     borderColor: colors.input.errorBorderColor,
   },
+  title: {
+    fontSize: 14,
+    color: '#000000',
+    opacity: 0.87,
+    fontStyle: "normal"
+  },
 
   dropDownList: {
     zIndex: 2,
@@ -16,8 +22,7 @@ export default StyleSheet.create({
     borderRadius: 10,
     borderWidth: 1,
     borderColor: colors.input.borderColor,
-    backgroundColor:
-      colors.addNewItemScreen.backgroundColorDropDownList,
+    backgroundColor: colors.addNewItemScreen.backgroundColorDropDownList,
   },
   dropDownListItem: {
     zIndex: 3,
